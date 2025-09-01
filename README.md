@@ -123,11 +123,6 @@ Waits for `networkidle` and optionally that the URL matches the provided `url` p
 - Node >= 18 recommended; ESM and CJS are exported.
 - Ensure `@playwright/test` and `playwright` are installed only once (in the consumer project).
 - When developing this package locally, prefer a tarball (`npm pack`) over symlinks to avoid version/cache issues.
-- If selectors (data-testid) differ, adjust them in your fork/project.
-
-## Version notes
-
-- 3.x: Renamed subpath export from `auth.setup.with` to `auth.setup` and switched to a pure function `(page, options)`.
 
 ## License
 
