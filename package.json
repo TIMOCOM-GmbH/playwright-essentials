@@ -1,0 +1,83 @@
+{
+  "name": "playwright-essentials",
+  "version": "1.0.0",
+  "description": "Lightweight Playwright fixtures and helper functions for stable, readable tests.",
+  "type": "module",
+  "main": "dist/index.cjs",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./auth.setup": {
+      "types": "./dist/auth.setup.d.ts",
+      "import": "./dist/auth.setup.js",
+      "require": "./dist/auth.setup.cjs"
+    },
+    "./helpers": {
+      "types": "./dist/helpers/index.d.ts",
+      "import": "./dist/helpers/index.js",
+      "require": "./dist/helpers/index.cjs"
+    },
+    "./test": {
+      "types": "./dist/test.d.ts",
+      "import": "./dist/test.js",
+      "require": "./dist/test.cjs"
+    }
+  },
+  "scripts": {
+    "build": "tsup src/index.ts src/helpers/index.ts src/helpers/auth.ts src/auth.setup.ts --format esm,cjs --dts --out-dir dist --clean",
+    "clean": "rimraf dist",
+    "prepublishOnly": "npm run clean && npm run build",
+    "prepare": "husky",
+    "lint": "eslint . --ext .ts",
+    "lint:fix": "eslint . --ext .ts --fix",
+    "format": "prettier --check .",
+    "format:fix": "prettier --write .",
+    "test": "node -e \"console.log('No tests yet')\""
+  },
+  "keywords": [
+    "playwright",
+    "testing",
+    "fixtures",
+    "helpers",
+    "e2e"
+  ],
+  "author": "",
+  "license": "ISC",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "peerDependencies": {
+    "@playwright/test": ">=1.40.0",
+    "playwright": ">=1.40.0"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/commit-analyzer": "^13.0.1",
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/github": "^11.0.4",
+    "@semantic-release/npm": "^12.0.2",
+    "@semantic-release/release-notes-generator": "^14.0.3",
+    "@typescript-eslint/eslint-plugin": "^8.41.0",
+    "@typescript-eslint/parser": "^8.41.0",
+    "eslint": "^9.34.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-playwright": "^2.2.2",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.1.5",
+    "prettier": "^3.6.2",
+    "rimraf": "^6.0.1",
+    "semantic-release": "^24.2.7",
+    "tsup": "^8.5.0",
+    "typescript": "^5.5.4",
+    "typescript-eslint": "^8.41.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

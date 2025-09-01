@@ -1,0 +1,39 @@
+# EditorConfig helps maintain consistent coding styles between different editors and IDEs
+root = true
+
+# Default settings for all files
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 2
+
+# Makefiles use tabs
+[Makefile]
+indent_style = tab
+indent_size = 4
+
+# JSON files (including config variants)
+[{*.json,*.jsonc,.prettierrc,.eslintrc,.babelrc,.stylelintrc}]
+indent_style = space
+indent_size = 2
+
+# YAML files (GitHub Actions, etc.) — enforce spaces, no tabs
+[*.yml]
+indent_style = space
+indent_size = 2
+
+[*.yaml]
+indent_style = space
+indent_size = 2
+
+# TypeScript and JavaScript (we use TS, but keep JS consistent if present)
+[{*.ts,*.tsx,*.cts,*.mts,*.js,*.cjs,*.mjs}]
+indent_style = space
+indent_size = 2
+
+# Markdown: keep trailing spaces (for soft line breaks)
+[*.md]
+trim_trailing_whitespace = false
