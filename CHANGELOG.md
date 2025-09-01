@@ -1,3 +1,9 @@
+## [1.0.1](https://github.com/TIMOCOM-GmbH/playwright-essentials/compare/v1.0.0...v1.0.1) (2025-09-01)
+
+### Bug Fixes
+
+- trigger release ([11f1c37](https://github.com/TIMOCOM-GmbH/playwright-essentials/commit/11f1c37dd72d93f56306f9e476405c685090f4ce))
+
 # 1.0.0 (2025-09-01)
 
 ### Features
