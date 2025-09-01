@@ -1,27 +1,27 @@
 # playwright-essentials
 
-Leichtgewichtige Utilities rund um Playwright mit Fokus auf wiederverwendbare Authentifizierung und kleine Helper.
+Lightweight utilities for Playwright focused on reusable authentication and small helpers.
 
 ## Installation
 
-Peer-Dependencies: `playwright` und `@playwright/test` sollten im Projekt vorhanden sein.
+Peer dependencies: `playwright` and `@playwright/test` must be present in your project.
 
 ```
 npm i -D playwright-essentials
 ```
 
-## Exports/Struktur
+## Exports/structure
 
 - `playwright-essentials/auth.setup`
-  - `registerAuthSetup(page, options)` – pure Funktion, führt den Login durch und speichert den Storage State.
+  - `registerAuthSetup(page, options)` – pure function that performs login and writes the storage state.
 - `playwright-essentials/helpers`
-  - Aktuell: `ensureLoggedIn(page, { url?, timeout? })` – wartet bis der Login als stabil gilt.
+  - Currently: `ensureLoggedIn(page, { url?, timeout? })` – waits until the login is stable.
 - `playwright-essentials`
-  - Namespace-Export `helpers` (entspricht `playwright-essentials/helpers`).
+  - Namespace export `helpers` (same as `playwright-essentials/helpers`).
 
-## Quickstart: Shared Login für alle Projekte
+## Quickstart: Shared login for all projects
 
-1. Setup-Test anlegen: `tests/auth.register.ts`
+1. Create setup test: `tests/auth.register.ts`
 
 ```ts
 import { test } from '@playwright/test'
@@ -37,7 +37,7 @@ test('authenticate', async ({ page }) => {
 })
 ```
 
-2. In der `playwright.config.ts` die Projekte vom Setup abhängig machen und `storageState` verwenden
+2. In `playwright.config.ts` make your projects depend on the setup and use `storageState`
 
 ```ts
 import { defineConfig, devices } from '@playwright/test'
@@ -78,7 +78,7 @@ export default defineConfig({
 })
 ```
 
-3. `.env` Beispiel
+3. `.env` example
 
 ```
 BASE_URL=https://my.example.com/app
@@ -87,22 +87,22 @@ AUTH_PASS=secret
 AUTH_STATE_PATH=playwright/.auth/user.json
 ```
 
-Standardpfade/-werte:
+Defaults:
 
 - `DEFAULT_AUTH_FILE`: `playwright/.auth/user.json`
-- `baseURL`: aus `process.env.BASE_URL`, sonst `https://my.timocom.com/app/`
-- `successUrl`: Standard ist ein RegExp `/.*tcgate/`
+- `baseURL`: from `process.env.BASE_URL`, otherwise `https://my.timocom.com/app/`
+- `successUrl`: default RegExp `/.*tcgate/`
 
 ## API
 
 ### `registerAuthSetup(page: Page, options: RegisterAuthOptions): Promise<void>`
 
-Führt folgende Schritte aus:
+Performs the following steps:
 
-- öffnet `${baseURL}weblogin/`
-- füllt Email/Passwort (data-testid: `email`, `password`), klickt `submit-button`
-- wartet via `ensureLoggedIn` auf erfolgreiche Anmeldung
-- speichert den Storage State nach `statePath` bzw. `AUTH_STATE_PATH` bzw. `DEFAULT_AUTH_FILE`
+- opens `${baseURL}weblogin/`
+- fills email/password (data-testid: `email`, `password`), clicks `submit-button`
+- waits for a successful login via `ensureLoggedIn`
+- writes storage state to `statePath` or `AUTH_STATE_PATH` or `DEFAULT_AUTH_FILE`
 
 ```ts
 type RegisterAuthOptions = {
@@ -116,19 +116,19 @@ type RegisterAuthOptions = {
 
 ### `helpers.ensureLoggedIn(page, { url?, timeout? }): Promise<void>`
 
-Wartet auf `networkidle` und optional, dass die URL dem `url`-Pattern entspricht.
+Waits for `networkidle` and optionally that the URL matches the provided `url` pattern.
 
-## Hinweise & Troubleshooting
+## Tips & troubleshooting
 
-- Node >= 18 empfohlen; ESM und CJS werden exportiert.
-- Stelle sicher, dass `@playwright/test` und `playwright` nur einmal (im Consumer-Projekt) installiert sind.
-- Wenn du das Paket lokal entwickelst, nutze ein Tarball (`npm pack`) statt Symlink, um Versions-/Cache-Probleme zu vermeiden.
-- Falls selektoren (data-testid) abweichen, passe sie in deinem Fork/Projekt an.
+- Node >= 18 recommended; ESM and CJS are exported.
+- Ensure `@playwright/test` and `playwright` are installed only once (in the consumer project).
+- When developing this package locally, prefer a tarball (`npm pack`) over symlinks to avoid version/cache issues.
+- If selectors (data-testid) differ, adjust them in your fork/project.
 
-## Versionshinweise
+## Version notes
 
-- 3.x: Umbenennung des Subpath-Exports von `auth.setup.with` zu `auth.setup` und Umstellung auf eine reine Funktion mit Signatur `(page, options)`.
+- 3.x: Renamed subpath export from `auth.setup.with` to `auth.setup` and switched to a pure function `(page, options)`.
 
-## Lizenz
+## License
 
 ISC
