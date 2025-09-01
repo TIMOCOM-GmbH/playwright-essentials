@@ -16,9 +16,15 @@
       }
     ],
     [
+      "@semantic-release/exec",
+      {
+        "prepareCmd": "npm pack"
+      }
+    ],
+    [
       "@semantic-release/github",
       {
-        "assets": []
+        "assets": ["playwright-essentials-*.tgz"]
       }
     ],
     [
