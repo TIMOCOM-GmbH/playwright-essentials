@@ -1,3 +1,9 @@
+# [1.1.0](https://github.com/TIMOCOM-GmbH/playwright-essentials/compare/v1.0.1...v1.1.0) (2025-09-02)
+
+### Features
+
+- add initial tests for auth setup and ensureLoggedIn functions ([5977f66](https://github.com/TIMOCOM-GmbH/playwright-essentials/commit/5977f6629c22686df74cd90b6f68f05670014ba2))
+
 ## [1.0.1](https://github.com/TIMOCOM-GmbH/playwright-essentials/compare/v1.0.0...v1.0.1) (2025-09-01)
 
 ### Bug Fixes
