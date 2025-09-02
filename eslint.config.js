@@ -28,12 +28,25 @@ export default [
         '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
       },
     },
+    // Override parser project for test files so ESLint can type-check them
+    {
+      files: ['**/*.spec.ts', '**/*.test.ts', 'tests/**/*.ts'],
+      languageOptions: {
+        parser: tseslint.parser,
+        parserOptions: {
+          project: ['./tsconfig.vitest.json'],
+          tsconfigRootDir: import.meta.dirname,
+          sourceType: 'module',
+          ecmaVersion: 'latest',
+        },
+      },
+    },
     // Turn off formatting-related ESLint rules in favor of Prettier
     prettier
   ),
   // Apply Playwright recommended rules to test files
   {
-    files: ['**/*.spec.ts', '**/*.test.ts', 'tests/**/*.ts'],
+    files: ['**/*.spec.ts', 'e2e/**/*.ts', 'playwright/**/*.ts'],
     plugins: { playwright },
     rules: {
       ...playwright.configs['flat/recommended'].rules,
