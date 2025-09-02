@@ -6,7 +6,7 @@ function makePage() {
   return {
     goto: vi.fn().mockResolvedValue(undefined),
     waitForLoadState: vi.fn().mockResolvedValue(undefined),
-    getByTestId: vi.fn((id: string) => ({
+    getByTestId: vi.fn((_id: string) => ({
       fill: vi.fn().mockResolvedValue(undefined),
       click: vi.fn().mockResolvedValue(undefined),
     })),
