@@ -35,7 +35,8 @@
     "lint:fix": "eslint . --ext .ts --fix",
     "format": "prettier --check .",
     "format:fix": "prettier --write .",
-    "test": "node -e \"console.log('No tests yet')\""
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "keywords": [
     "playwright",
@@ -64,8 +65,10 @@
     "@semantic-release/github": "^11.0.4",
     "@semantic-release/npm": "^12.0.2",
     "@semantic-release/release-notes-generator": "^14.0.3",
+    "@types/node": "^22.5.5",
     "@typescript-eslint/eslint-plugin": "^8.41.0",
     "@typescript-eslint/parser": "^8.41.0",
+    "vitest": "^2.0.5",
     "eslint": "^9.34.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-playwright": "^2.2.2",
