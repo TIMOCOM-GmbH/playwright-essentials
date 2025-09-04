@@ -25,8 +25,6 @@ export async function registerAuthSetup(page: Page, options: RegisterAuthOptions
   await page.waitForLoadState('networkidle')
   await page.getByTestId('email').fill(user)
   await page.getByTestId('password').fill(pass)
-  await page.waitForTimeout(1500)
-  await page.waitForLoadState('networkidle')
   await page.getByTestId('submit-button').click()
   await ensureLoggedIn(page, { url: successUrl, timeout: 10_000 })
   const path = statePath ?? process.env.AUTH_STATE_PATH ?? DEFAULT_AUTH_FILE
