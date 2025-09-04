@@ -15,7 +15,10 @@ npm i -D playwright-essentials
 - `playwright-essentials/auth.setup`
   - `registerAuthSetup(page, options)` – pure function that performs login and writes the storage state.
 - `playwright-essentials/helpers`
-  - Currently: `ensureLoggedIn(page, { url?, timeout? })` – waits until the login is stable.
+  - `ensureLoggedIn(page, { url?, timeout? })` – waits until the login is stable.
+  - Navigation helpers (all simple wrappers around `page.goto()`):
+    - Path constants: `FREIGHT_EDITOR_PATH`, `FREIGHT_SEARCH_PATH`, `PRICEPROPOSAL_PATH`, `VEHICLE_EDITOR_PATH`, `VEHICLE_SEARCH_PATH`, `WAREHOUSE_EDITOR_PATH`, `WAREHOUSE_SEARCH_PATH`, `EBID_TENDERS_PATH`, `EBID_BIDS_PATH`, `ROUTE_AND_COSTS_PATH`, `DEALS_MY_DEALS_PATH`, `DEALS_RECEIVED_DEALS_PATH`, `ORDER_MY_ORDERS_PATH`, `ORDER_RECEIVED_ORDERS_PATH`, `ORDER_STATISTICS_PRINCIPAL_PATH`, `ORDER_STATISTICS_CONTRACTOR_PATH`, `SHIPMENT_PATH`, `FLEET_MY_FLEET_PATH`, `SHRAK_PATH`, `SHRAK_SHARED_VEHICLES_PATH`, `SHRAK_RECEIVED_VEHICLES_PATH`, `VEHICLE_MANAGEMENT_PATH`.
+    - Functions: `navigate(page, path)` plus matching `goto*` functions like `gotoFreightEditor`, `gotoFreightSearch`, `gotoVehicleEditor`, etc.
 - `playwright-essentials`
   - Namespace export `helpers` (same as `playwright-essentials/helpers`).
 
@@ -115,6 +118,23 @@ type RegisterAuthOptions = {
 ```
 
 ### `helpers.ensureLoggedIn(page, { url?, timeout? }): Promise<void>`
+
+### Navigation helpers
+
+All navigation utilities are exported via the helpers namespace.
+
+Example usage (direct imports):
+
+```ts
+import { gotoFreightEditor, gotoVehicleSearch, navigate } from 'playwright-essentials/helpers'
+
+await gotoFreightEditor(page)
+await gotoVehicleSearch(page)
+await navigate(page, 'tccargo/freights/editor/')
+await navigate(page, 'https://example.com/health') // absolute URL bypassing baseURL
+```
+
+They rely on Playwright's own `baseURL` resolution: if `use.baseURL` is set in `playwright.config.ts`, relative paths are resolved automatically.
 
 Waits for `networkidle` and optionally that the URL matches the provided `url` pattern.
 
