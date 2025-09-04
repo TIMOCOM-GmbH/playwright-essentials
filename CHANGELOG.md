@@ -1,3 +1,13 @@
+# [1.2.0](https://github.com/TIMOCOM-GmbH/playwright-essentials/compare/v1.1.0...v1.2.0) (2025-09-04)
+
+### Bug Fixes
+
+- remove redundant wait for load state in registerAuthSetup function ([093c647](https://github.com/TIMOCOM-GmbH/playwright-essentials/commit/093c647a612deb624f76b162bdaf5468d47fede7))
+
+### Features
+
+- add navigation helpers and tests for page navigation functions ([43b87c7](https://github.com/TIMOCOM-GmbH/playwright-essentials/commit/43b87c7aac63847af0adf2465941e6b20ba7e60c))
+
 # [1.1.0](https://github.com/TIMOCOM-GmbH/playwright-essentials/compare/v1.0.1...v1.1.0) (2025-09-02)
 
 ### Features
