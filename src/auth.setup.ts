@@ -12,7 +12,11 @@ export type RegisterAuthOptions = {
   statePath?: string
 }
 
-export async function registerAuthSetup(page: Page, options: RegisterAuthOptions): Promise<void> {
+export async function registerAuthSetup(
+  page: Page,
+  options: RegisterAuthOptions,
+  deactivateJoyrides: boolean = true
+): Promise<void> {
   const {
     baseURL = process.env.BASE_URL ?? 'https://my.timocom.com/app/',
     user,
@@ -21,6 +25,12 @@ export async function registerAuthSetup(page: Page, options: RegisterAuthOptions
     statePath,
   } = options
 
+  if (deactivateJoyrides) {
+    await page.addInitScript(() => {
+      window.localStorage.setItem('timocom_joyride_inactive', 'true')
+      window.localStorage.setItem('timocom_news_show_dialog', 'false')
+    })
+  }
   await page.goto(`${baseURL}weblogin/`)
   await page.waitForLoadState('networkidle')
   await page.getByTestId('email').fill(user)
