@@ -56,7 +56,7 @@ describe('registerAuthSetup', () => {
     expect(page.context().storageState).toHaveBeenCalledWith({ path: 'custom/state.json' })
   })
 
-  describe('joyride deactivation', () => {
+  describe('joyride and News  deactivation', () => {
     it('calls addInitScript with localStorage deactivation function by default', async () => {
       const page = makePage()
       const ensureMod = await import('../../src/helpers/auth')
@@ -125,7 +125,7 @@ describe('registerAuthSetup', () => {
       expect(addInitScriptCall).toBeLessThan(gotoCall)
     })
 
-    it('only calls addInitScript when joyrides should be deactivated', async () => {
+    it('only calls addInitScript when joyride and News should be deactivated', async () => {
       const page = makePage()
       const ensureMod = await import('../../src/helpers/auth')
       vi.spyOn(ensureMod, 'ensureLoggedIn').mockResolvedValue(undefined)
