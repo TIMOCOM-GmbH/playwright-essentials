@@ -56,7 +56,7 @@ describe('registerAuthSetup', () => {
     expect(page.context().storageState).toHaveBeenCalledWith({ path: 'custom/state.json' })
   })
 
-  describe('joyride and News  deactivation', () => {
+  describe('joyride and News deactivation', () => {
     it('calls addInitScript with localStorage deactivation function by default', async () => {
       const page = makePage()
       const ensureMod = await import('../../src/helpers/auth')
