@@ -15,7 +15,7 @@ export type RegisterAuthOptions = {
 export async function registerAuthSetup(
   page: Page,
   options: RegisterAuthOptions,
-  deactivateJoyrides: boolean = true
+  deactivateJoyridesAndNews: boolean = true
 ): Promise<void> {
   const {
     baseURL = process.env.BASE_URL ?? 'https://my.timocom.com/app/',
@@ -25,7 +25,7 @@ export async function registerAuthSetup(
     statePath,
   } = options
 
-  if (deactivateJoyrides) {
+  if (deactivateJoyridesAndNews) {
     await page.addInitScript(() => {
       window.localStorage.setItem('timocom_joyride_inactive', 'true')
       window.localStorage.setItem('timocom_news_show_dialog', 'false')

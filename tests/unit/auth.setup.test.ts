@@ -84,7 +84,7 @@ describe('registerAuthSetup', () => {
           pass: 'password',
         },
         true
-      ) // explicitly set deactivateJoyrides to true
+      ) // explicitly set deactivateJoyridesAndNews to true
 
       expect(page.addInitScript).toHaveBeenCalledTimes(1)
       expect(page.addInitScript).toHaveBeenCalledWith(expect.any(Function))
@@ -102,7 +102,7 @@ describe('registerAuthSetup', () => {
           pass: 'password',
         },
         false
-      ) // explicitly set deactivateJoyrides to false
+      ) // explicitly set deactivateJoyridesAndNews to false
 
       // Should not call addInitScript when joyrides are not deactivated
       expect(page.addInitScript).not.toHaveBeenCalled()
