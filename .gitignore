@@ -4,5 +4,5 @@ dist
 *.log
 coverage
 *.tsbuildinfo
-
+**/*.env
 *.tgz
