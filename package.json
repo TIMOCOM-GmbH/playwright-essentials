@@ -36,7 +36,9 @@
     "format": "prettier --check .",
     "format:fix": "prettier --write .",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "test:all": "vitest run && playwright test"
   },
   "keywords": [
     "playwright",
@@ -56,6 +58,7 @@
     "playwright": ">=1.40.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.40.0",
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.1",
     "@semantic-release/changelog": "^6.0.3",
