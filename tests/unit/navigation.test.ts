@@ -45,7 +45,7 @@ import {
   gotoShrakSharedVehicles,
   gotoShrakReceivedVehicles,
   gotoVehicleManagement,
-} from './navigation'
+} from '../../src/helpers/navigation'
 
 // Helper to create a mock Page-like object
 function createMockPage(calls: string[]) {
