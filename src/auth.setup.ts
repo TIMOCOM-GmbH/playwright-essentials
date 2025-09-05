@@ -10,6 +10,7 @@ export type RegisterAuthOptions = {
   pass: string
   successUrl?: string | RegExp
   statePath?: string
+  deactivateJoyridesAndNews?: boolean
 }
 
 export async function registerAuthSetup(page: Page, options: RegisterAuthOptions): Promise<void> {
@@ -19,8 +20,15 @@ export async function registerAuthSetup(page: Page, options: RegisterAuthOptions
     pass,
     successUrl = /.*tcgate.*/,
     statePath,
+    deactivateJoyridesAndNews = true,
   } = options
 
+  if (deactivateJoyridesAndNews) {
+    await page.addInitScript(() => {
+      window.localStorage.setItem('timocom_joyride_inactive', 'true')
+      window.localStorage.setItem('timocom_news_show_dialog', 'false')
+    })
+  }
   await page.goto(`${baseURL}weblogin/`)
   await page.waitForLoadState('networkidle')
   await page.getByTestId('email').fill(user)

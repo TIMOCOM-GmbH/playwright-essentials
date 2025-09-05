@@ -11,6 +11,7 @@ function makePage() {
       click: vi.fn().mockResolvedValue(undefined),
     })),
     waitForTimeout: vi.fn().mockResolvedValue(undefined),
+    addInitScript: vi.fn().mockResolvedValue(undefined),
     context: () => context,
   }
 }
@@ -53,5 +54,94 @@ describe('registerAuthSetup', () => {
     })
 
     expect(page.context().storageState).toHaveBeenCalledWith({ path: 'custom/state.json' })
+  })
+
+  describe('joyride and News deactivation', () => {
+    it('calls addInitScript with localStorage deactivation function by default', async () => {
+      const page = makePage()
+      const ensureMod = await import('../../src/helpers/auth')
+      vi.spyOn(ensureMod, 'ensureLoggedIn').mockResolvedValue(undefined)
+
+      await registerAuthSetup(page as any, {
+        user: 'test@example.com',
+        pass: 'password',
+      })
+
+      // Simple, clear assertion - verify function is called with a function
+      expect(page.addInitScript).toHaveBeenCalledTimes(1)
+      expect(page.addInitScript).toHaveBeenCalledWith(expect.any(Function))
+    })
+
+    it('calls addInitScript when explicitly enabled', async () => {
+      const page = makePage()
+      const ensureMod = await import('../../src/helpers/auth')
+      vi.spyOn(ensureMod, 'ensureLoggedIn').mockResolvedValue(undefined)
+
+      await registerAuthSetup(page as any, {
+        user: 'test@example.com',
+        pass: 'password',
+        deactivateJoyridesAndNews: true,
+      }) // explicitly set deactivateJoyridesAndNews to true
+
+      expect(page.addInitScript).toHaveBeenCalledTimes(1)
+      expect(page.addInitScript).toHaveBeenCalledWith(expect.any(Function))
+    })
+
+    it('does not call addInitScript when explicitly disabled', async () => {
+      const page = makePage()
+      const ensureMod = await import('../../src/helpers/auth')
+      vi.spyOn(ensureMod, 'ensureLoggedIn').mockResolvedValue(undefined)
+
+      await registerAuthSetup(page as any, {
+        user: 'test@example.com',
+        pass: 'password',
+        deactivateJoyridesAndNews: false,
+      }) // explicitly set deactivateJoyridesAndNews to false
+
+      // Should not call addInitScript when joyrides are not deactivated
+      expect(page.addInitScript).not.toHaveBeenCalled()
+    })
+
+    it('calls addInitScript before page navigation', async () => {
+      const page = makePage()
+      const ensureMod = await import('../../src/helpers/auth')
+      vi.spyOn(ensureMod, 'ensureLoggedIn').mockResolvedValue(undefined)
+
+      await registerAuthSetup(page as any, {
+        user: 'test@example.com',
+        pass: 'password',
+      })
+
+      // Verify addInitScript is called before goto for proper timing
+      const addInitScriptCall = (page.addInitScript as any).mock.invocationCallOrder[0]
+      const gotoCall = (page.goto as any).mock.invocationCallOrder[0]
+
+      expect(addInitScriptCall).toBeLessThan(gotoCall)
+    })
+
+    it('only calls addInitScript when joyride and News should be deactivated', async () => {
+      const page = makePage()
+      const ensureMod = await import('../../src/helpers/auth')
+      vi.spyOn(ensureMod, 'ensureLoggedIn').mockResolvedValue(undefined)
+
+      // Test that it's called when enabled (default behavior)
+      await registerAuthSetup(page as any, {
+        user: 'test@example.com',
+        pass: 'password',
+      })
+
+      expect(page.addInitScript).toHaveBeenCalledTimes(1)
+
+      // Reset the mock and test that it's NOT called when disabled
+      vi.clearAllMocks()
+
+      await registerAuthSetup(page as any, {
+        user: 'test@example.com',
+        pass: 'password',
+        deactivateJoyridesAndNews: false,
+      })
+
+      expect(page.addInitScript).not.toHaveBeenCalled()
+    })
   })
 })
