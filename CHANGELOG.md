@@ -1,3 +1,9 @@
+# [1.3.0](https://github.com/TIMOCOM-GmbH/playwright-essentials/compare/v1.2.0...v1.3.0) (2025-09-05)
+
+### Features
+
+- **auth:** optional joyride/news deactivation + Playwright & Vitest setup ([f99f59a](https://github.com/TIMOCOM-GmbH/playwright-essentials/commit/f99f59a45070daa2a519d5c5919b6f1b3453f730))
+
 # [1.2.0](https://github.com/TIMOCOM-GmbH/playwright-essentials/compare/v1.1.0...v1.2.0) (2025-09-04)
 
 ### Bug Fixes
