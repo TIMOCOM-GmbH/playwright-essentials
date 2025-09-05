@@ -77,14 +77,11 @@ describe('registerAuthSetup', () => {
       const ensureMod = await import('../../src/helpers/auth')
       vi.spyOn(ensureMod, 'ensureLoggedIn').mockResolvedValue(undefined)
 
-      await registerAuthSetup(
-        page as any,
-        {
-          user: 'test@example.com',
-          pass: 'password',
-        },
-        true
-      ) // explicitly set deactivateJoyridesAndNews to true
+      await registerAuthSetup(page as any, {
+        user: 'test@example.com',
+        pass: 'password',
+        deactivateJoyridesAndNews: true,
+      }) // explicitly set deactivateJoyridesAndNews to true
 
       expect(page.addInitScript).toHaveBeenCalledTimes(1)
       expect(page.addInitScript).toHaveBeenCalledWith(expect.any(Function))
@@ -95,14 +92,11 @@ describe('registerAuthSetup', () => {
       const ensureMod = await import('../../src/helpers/auth')
       vi.spyOn(ensureMod, 'ensureLoggedIn').mockResolvedValue(undefined)
 
-      await registerAuthSetup(
-        page as any,
-        {
-          user: 'test@example.com',
-          pass: 'password',
-        },
-        false
-      ) // explicitly set deactivateJoyridesAndNews to false
+      await registerAuthSetup(page as any, {
+        user: 'test@example.com',
+        pass: 'password',
+        deactivateJoyridesAndNews: false,
+      }) // explicitly set deactivateJoyridesAndNews to false
 
       // Should not call addInitScript when joyrides are not deactivated
       expect(page.addInitScript).not.toHaveBeenCalled()
@@ -141,14 +135,11 @@ describe('registerAuthSetup', () => {
       // Reset the mock and test that it's NOT called when disabled
       vi.clearAllMocks()
 
-      await registerAuthSetup(
-        page as any,
-        {
-          user: 'test@example.com',
-          pass: 'password',
-        },
-        false
-      )
+      await registerAuthSetup(page as any, {
+        user: 'test@example.com',
+        pass: 'password',
+        deactivateJoyridesAndNews: false,
+      })
 
       expect(page.addInitScript).not.toHaveBeenCalled()
     })
