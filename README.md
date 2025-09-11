@@ -7,7 +7,7 @@ Lightweight utilities for Playwright focused on reusable authentication and smal
 Peer dependencies: `playwright` and `@playwright/test` must be present in your project.
 
 ```
-npm i -D playwright-essentials
+npm i https://github.com/TIMOCOM-GmbH/playwright-essentials/releases/download/v1.3.0/playwright-essentials-1.3.0.tgz
 ```
 
 ## Exports/structure
