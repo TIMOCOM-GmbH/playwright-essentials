@@ -83,9 +83,6 @@ describe('registerAuthSetup cleanup (top-level directory removal)', () => {
     await mockEnsureLoggedIn()
     const abs = path.resolve('abs/state/user.json')
     await registerAuthSetup(page as any, { user: 'u', pass: 'p', statePath: abs })
-    // ensure no call with absolute root directory of provided abs path
-    const topLevelAbs = path.resolve(abs.split(path.sep)[0] || '')
-    // Simpler: expect that no call includes the absolute path variable directly
     expect(rmSpy).not.toHaveBeenCalledWith(expect.stringMatching(abs), expect.anything())
   })
 
