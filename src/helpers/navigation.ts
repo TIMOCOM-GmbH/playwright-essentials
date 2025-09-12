@@ -8,36 +8,36 @@ export async function navigate(page: Page, path: string): Promise<void> {
   await page.goto(path)
 }
 
-export const FREIGHT_EDITOR_PATH = 'tccargo/freights/editor/'
-export const FREIGHT_SEARCH_PATH = 'tccargo/freights/search/'
-export const PRICEPROPOSAL_PATH = 'tccargo/freights/priceproposals/'
+export const FREIGHT_EDITOR_PATH = 'app/tccargo/freights/editor/'
+export const FREIGHT_SEARCH_PATH = 'app/tccargo/freights/search/'
+export const PRICEPROPOSAL_PATH = 'app/tccargo/freights/priceproposals/'
 
-export const VEHICLE_EDITOR_PATH = 'tccargo/vehicles/editor/'
-export const VEHICLE_SEARCH_PATH = 'tccargo/vehicles/search/'
+export const VEHICLE_EDITOR_PATH = 'app/tccargo/vehicles/editor/'
+export const VEHICLE_SEARCH_PATH = 'app/tccargo/vehicles/search/'
 
 export const WAREHOUSE_EDITOR_PATH = 'app/tcw/edit'
 export const WAREHOUSE_SEARCH_PATH = 'app/tcw/search'
 
-export const EBID_TENDERS_PATH = 'tcebid/tenders/'
-export const EBID_BIDS_PATH = 'tcebid/bids/'
+export const EBID_TENDERS_PATH = 'app/tcebid/tenders/'
+export const EBID_BIDS_PATH = 'app/tcebid/bids/'
 
-export const ROUTE_AND_COSTS_PATH = 'roco/'
+export const ROUTE_AND_COSTS_PATH = 'app/roco/'
 
-export const DEALS_MY_DEALS_PATH = 'deals/mydeals/'
-export const DEALS_RECEIVED_DEALS_PATH = 'deals/received-deals'
+export const DEALS_MY_DEALS_PATH = 'app/deals/mydeals/'
+export const DEALS_RECEIVED_DEALS_PATH = 'app/deals/received-deals'
 
-export const ORDER_MY_ORDERS_PATH = 'tcorder/?tab=myOrders'
-export const ORDER_RECEIVED_ORDERS_PATH = 'tcorder/?tab=receivedOrders'
-export const ORDER_STATISTICS_PRINCIPAL_PATH = 'tcorder/statistics/principal'
-export const ORDER_STATISTICS_CONTRACTOR_PATH = 'tcorder/statistics/contractor'
+export const ORDER_MY_ORDERS_PATH = 'app/tcorder/?tab=myOrders'
+export const ORDER_RECEIVED_ORDERS_PATH = 'app/tcorder/?tab=receivedOrders'
+export const ORDER_STATISTICS_PRINCIPAL_PATH = 'app/tcorder/statistics/principal'
+export const ORDER_STATISTICS_CONTRACTOR_PATH = 'app/tcorder/statistics/contractor'
 
-export const SHIPMENT_PATH = 'tcshipment/'
+export const SHIPMENT_PATH = 'app/tcshipment/'
 
-export const FLEET_MY_FLEET_PATH = 'tcfleet/'
-export const SHRAK_PATH = 'shrack/'
-export const SHRAK_SHARED_VEHICLES_PATH = 'shrack/shared'
-export const SHRAK_RECEIVED_VEHICLES_PATH = 'shrack/received'
-export const VEHICLE_MANAGEMENT_PATH = 'tcprofile/edit/devicemanagement'
+export const FLEET_MY_FLEET_PATH = 'app/tcfleet/'
+export const SHRAK_PATH = 'app/shrack/'
+export const SHRAK_SHARED_VEHICLES_PATH = 'app/shrack/shared'
+export const SHRAK_RECEIVED_VEHICLES_PATH = 'app/shrack/received'
+export const VEHICLE_MANAGEMENT_PATH = 'app/tcprofile/edit/devicemanagement'
 
 export async function gotoFreightEditor(page: Page): Promise<void> {
   await navigate(page, FREIGHT_EDITOR_PATH)
