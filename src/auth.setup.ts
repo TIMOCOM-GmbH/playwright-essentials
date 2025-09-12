@@ -1,5 +1,7 @@
 import type { Page } from '@playwright/test'
 import { ensureLoggedIn } from './helpers/auth.js'
+import fs from 'fs'
+import path from 'path'
 
 export const DEFAULT_AUTH_FILE = 'playwright/.auth/user.json'
 
@@ -22,7 +24,11 @@ export async function registerAuthSetup(page: Page, options: RegisterAuthOptions
     statePath,
     deactivateJoyridesAndNews = true,
   } = options
-
+  // Remove the whole playwright directory to force a fresh authentication (clears previous auth state, etc.)
+  try {
+    const pwDir = path.resolve(process.cwd(), 'playwright')
+    fs.rmSync(pwDir, { force: true, recursive: true })
+  } catch {}
   if (deactivateJoyridesAndNews) {
     await page.addInitScript(() => {
       window.localStorage.setItem('timocom_joyride_inactive', 'true')
@@ -35,6 +41,6 @@ export async function registerAuthSetup(page: Page, options: RegisterAuthOptions
   await page.getByTestId('password').fill(pass)
   await page.getByTestId('submit-button').click()
   await ensureLoggedIn(page, { url: successUrl, timeout: 10_000 })
-  const path = statePath ?? process.env.AUTH_STATE_PATH ?? DEFAULT_AUTH_FILE
-  await page.context().storageState({ path })
+  const storageStatePath = statePath ?? process.env.AUTH_STATE_PATH ?? DEFAULT_AUTH_FILE
+  await page.context().storageState({ path: storageStatePath })
 }

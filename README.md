@@ -84,7 +84,7 @@ export default defineConfig({
 3. `.env` example
 
 ```
-BASE_URL=https://my.example.com/app
+BASE_URL=https://my.example.com/
 AUTH_USER=user@example.com
 AUTH_PASS=secret
 AUTH_STATE_PATH=playwright/.auth/user.json
@@ -93,8 +93,10 @@ AUTH_STATE_PATH=playwright/.auth/user.json
 Defaults:
 
 - `DEFAULT_AUTH_FILE`: `playwright/.auth/user.json`
-- `baseURL`: from `process.env.BASE_URL`, otherwise `https://my.timocom.com/app/`
+- `baseURL`: from `process.env.BASE_URL`, otherwise `https://my.timocom.com/`
 - `successUrl`: default RegExp `/.*tcgate/`
+
+Once you've done these steps, you no longer need to log in manually; the E2E test starts already authenticated via the storage state.
 
 ## API
 
