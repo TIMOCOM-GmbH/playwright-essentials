@@ -1,3 +1,9 @@
+## [1.4.2](https://github.com/TIMOCOM-GmbH/playwright-essentials/compare/v1.4.1...v1.4.2) (2025-09-12)
+
+### Bug Fixes
+
+- normalize baseURL to ensure it ends with a trailing slash in registerAuthSetup ([78068b6](https://github.com/TIMOCOM-GmbH/playwright-essentials/commit/78068b6dca3934e7cc9fa776f7c23f1d4b5774f3))
+
 ## [1.4.1](https://github.com/TIMOCOM-GmbH/playwright-essentials/compare/v1.4.0...v1.4.1) (2025-09-12)
 
 ### Bug Fixes
