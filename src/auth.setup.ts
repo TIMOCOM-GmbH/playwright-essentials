@@ -24,8 +24,9 @@ export async function registerAuthSetup(page: Page, options: RegisterAuthOptions
     statePath,
     deactivateJoyridesAndNews = true,
   } = options
-  // Determine path and remove only the first directory segment (relative) for a clean auth state.
-  const storageStatePath = statePath ?? process.env.AUTH_STATE_PATH ?? DEFAULT_AUTH_FILE
+  // Ensure baseURL ends with a trailing slash for consistent concatenation
+  const normalizedBaseURL = baseURL.endsWith('/') ? baseURL : baseURL + '/'
+  // Remove the whole playwright directory to force a fresh authentication (clears previous auth state, etc.)
   try {
     if (!path.isAbsolute(storageStatePath)) {
       const segments = storageStatePath.split(/[\\/]/).filter(Boolean)
@@ -43,7 +44,7 @@ export async function registerAuthSetup(page: Page, options: RegisterAuthOptions
       window.sessionStorage.setItem('timocom_news_show_dialog', 'false')
     })
   }
-  await page.goto(`${baseURL}weblogin/`)
+  await page.goto(`${normalizedBaseURL}weblogin/`)
   await page.waitForLoadState('networkidle')
   await page.getByTestId('email').fill(user)
   await page.getByTestId('password').fill(pass)
