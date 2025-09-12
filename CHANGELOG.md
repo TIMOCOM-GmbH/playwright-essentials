@@ -1,3 +1,9 @@
+## [1.4.1](https://github.com/TIMOCOM-GmbH/playwright-essentials/compare/v1.4.0...v1.4.1) (2025-09-12)
+
+### Bug Fixes
+
+- update base URL in README and auth setup, clear auth state before login ([48f6bfb](https://github.com/TIMOCOM-GmbH/playwright-essentials/commit/48f6bfb821b6ba26da5f10db9b70d4727211366f))
+
 # [1.4.0](https://github.com/TIMOCOM-GmbH/playwright-essentials/compare/v1.3.0...v1.4.0) (2025-09-12)
 
 ### Bug Fixes
