@@ -24,10 +24,18 @@ export async function registerAuthSetup(page: Page, options: RegisterAuthOptions
     statePath,
     deactivateJoyridesAndNews = true,
   } = options
-  // Remove the whole playwright directory to force a fresh authentication (clears previous auth state, etc.)
+  // Determine path and remove only the first directory segment (relative) for a clean auth state.
+  const storageStatePath = statePath ?? process.env.AUTH_STATE_PATH ?? DEFAULT_AUTH_FILE
   try {
-    const pwDir = path.resolve(process.cwd(), 'playwright')
-    fs.rmSync(pwDir, { force: true, recursive: true })
+    if (!path.isAbsolute(storageStatePath)) {
+      const segments = storageStatePath.split(/[\\/]/).filter(Boolean)
+      // Remove leading '.' or './'
+      while (segments.length && (segments[0] === '.' || segments[0] === '')) segments.shift()
+      const first = segments[0]
+      if (first && first !== '.' && first !== '..' && !first.startsWith('..')) {
+        fs.rmSync(path.resolve(first), { force: true, recursive: true })
+      }
+    }
   } catch {}
   if (deactivateJoyridesAndNews) {
     await page.addInitScript(() => {
@@ -41,6 +49,5 @@ export async function registerAuthSetup(page: Page, options: RegisterAuthOptions
   await page.getByTestId('password').fill(pass)
   await page.getByTestId('submit-button').click()
   await ensureLoggedIn(page, { url: successUrl, timeout: 10_000 })
-  const storageStatePath = statePath ?? process.env.AUTH_STATE_PATH ?? DEFAULT_AUTH_FILE
   await page.context().storageState({ path: storageStatePath })
 }
