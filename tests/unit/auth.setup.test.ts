@@ -42,6 +42,20 @@ describe('registerAuthSetup', () => {
     expect(page.context().storageState).toHaveBeenCalledWith({ path: DEFAULT_AUTH_FILE })
   })
 
+  it('normalizes baseURL without trailing slash', async () => {
+    const page = makePage()
+    const ensureMod = await import('../../src/helpers/auth')
+    vi.spyOn(ensureMod, 'ensureLoggedIn').mockResolvedValue(undefined)
+
+    await registerAuthSetup(page as any, {
+      baseURL: 'https://example.com/app', // no trailing slash
+      user: 'john@example.com',
+      pass: 'secret',
+    })
+
+    expect(page.goto).toHaveBeenCalledWith('https://example.com/app/weblogin/')
+  })
+
   it('uses provided statePath', async () => {
     const page = makePage()
     const ensureMod = await import('../../src/helpers/auth')

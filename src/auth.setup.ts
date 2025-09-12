@@ -24,6 +24,8 @@ export async function registerAuthSetup(page: Page, options: RegisterAuthOptions
     statePath,
     deactivateJoyridesAndNews = true,
   } = options
+  // Ensure baseURL ends with a trailing slash for consistent concatenation
+  const normalizedBaseURL = baseURL.endsWith('/') ? baseURL : baseURL + '/'
   // Remove the whole playwright directory to force a fresh authentication (clears previous auth state, etc.)
   try {
     const pwDir = path.resolve(process.cwd(), 'playwright')
@@ -35,7 +37,7 @@ export async function registerAuthSetup(page: Page, options: RegisterAuthOptions
       window.sessionStorage.setItem('timocom_news_show_dialog', 'false')
     })
   }
-  await page.goto(`${baseURL}weblogin/`)
+  await page.goto(`${normalizedBaseURL}weblogin/`)
   await page.waitForLoadState('networkidle')
   await page.getByTestId('email').fill(user)
   await page.getByTestId('password').fill(pass)
