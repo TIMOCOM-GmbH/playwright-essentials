@@ -26,11 +26,11 @@ export async function registerAuthSetup(page: Page, options: RegisterAuthOptions
   } = options
   // Ensure baseURL ends with a trailing slash for consistent concatenation
   const normalizedBaseURL = baseURL.endsWith('/') ? baseURL : baseURL + '/'
-  // Remove the whole playwright directory to force a fresh authentication (clears previous auth state, etc.)
+  // Resolve storage state path early and remove its top-level directory to ensure a clean auth state
+  const storageStatePath = statePath ?? process.env.AUTH_STATE_PATH ?? DEFAULT_AUTH_FILE
   try {
     if (!path.isAbsolute(storageStatePath)) {
       const segments = storageStatePath.split(/[\\/]/).filter(Boolean)
-      // Remove leading '.' or './'
       while (segments.length && (segments[0] === '.' || segments[0] === '')) segments.shift()
       const first = segments[0]
       if (first && first !== '.' && first !== '..' && !first.startsWith('..')) {
