@@ -1,3 +1,18 @@
+# [1.4.0](https://github.com/TIMOCOM-GmbH/playwright-essentials/compare/v1.3.0...v1.4.0) (2025-09-12)
+
+### Bug Fixes
+
+- add support for ignoring all environment variable files ([3a004ed](https://github.com/TIMOCOM-GmbH/playwright-essentials/commit/3a004edd9385328c325b0e54c31ebd46b59e5de3))
+- change localStorage to sessionStorage for news dialog setting ([0203568](https://github.com/TIMOCOM-GmbH/playwright-essentials/commit/02035680519461523fd2bd3e3d0d31826cb2cddd))
+- remove unnecessary non-null assertion for deactivateJoyridesAndNews ([f67a9cb](https://github.com/TIMOCOM-GmbH/playwright-essentials/commit/f67a9cbc074766b6455ee824396d6e89c2562dc4))
+- space ([92c18ad](https://github.com/TIMOCOM-GmbH/playwright-essentials/commit/92c18ad3d1a554180789bac5012e5e63148ae64f))
+
+### Features
+
+- add Playwright configuration and update test scripts ([dbcdb25](https://github.com/TIMOCOM-GmbH/playwright-essentials/commit/dbcdb258ea8771b9e334462788f2b961afd49e88))
+- enhance registerAuthSetup with joyride deactivation option and add corresponding tests ([a80417c](https://github.com/TIMOCOM-GmbH/playwright-essentials/commit/a80417c1a4958a896789d5737306ddee4d868caa))
+- update @playwright/test to version 1.55.0 in package.json and package-lock.json ([88d997d](https://github.com/TIMOCOM-GmbH/playwright-essentials/commit/88d997d828d86e555573c6fd93452d02d9a7e899))
+
 # [1.3.0](https://github.com/TIMOCOM-GmbH/playwright-essentials/compare/v1.2.0...v1.3.0) (2025-09-05)
 
 ### Features
