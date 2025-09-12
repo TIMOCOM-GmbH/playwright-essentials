@@ -1,3 +1,11 @@
+## [1.4.3](https://github.com/TIMOCOM-GmbH/playwright-essentials/compare/v1.4.2...v1.4.3) (2025-09-12)
+
+### Bug Fixes
+
+- improve auth cleanup logic to remove only the first directory segment for custom paths ([98e82cb](https://github.com/TIMOCOM-GmbH/playwright-essentials/commit/98e82cb862f83cfffb6c318957f0dc334ec19fb5))
+- simplify absolute path check in registerAuthSetup cleanup tests ([abdecc2](https://github.com/TIMOCOM-GmbH/playwright-essentials/commit/abdecc2ee6f3a9948a1aa49aa3e68e746e2ba01d))
+- update paths in navigation helper to include 'app/' prefix ([676658c](https://github.com/TIMOCOM-GmbH/playwright-essentials/commit/676658c967838ace0482ef9f91fdf4e2cfbc88fe))
+
 ## [1.4.2](https://github.com/TIMOCOM-GmbH/playwright-essentials/compare/v1.4.1...v1.4.2) (2025-09-12)
 
 ### Bug Fixes
