@@ -26,7 +26,7 @@ export async function registerAuthSetup(page: Page, options: RegisterAuthOptions
   if (deactivateJoyridesAndNews) {
     await page.addInitScript(() => {
       window.localStorage.setItem('timocom_joyride_inactive', 'true')
-      window.localStorage.setItem('timocom_news_show_dialog', 'false')
+      window.sessionStorage.setItem('timocom_news_show_dialog', 'false')
     })
   }
   await page.goto(`${baseURL}weblogin/`)
