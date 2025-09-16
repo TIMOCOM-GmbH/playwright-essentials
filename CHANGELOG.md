@@ -1,3 +1,9 @@
+# [1.5.0](https://github.com/TIMOCOM-GmbH/playwright-essentials/compare/v1.4.3...v1.5.0) (2025-09-16)
+
+### Features
+
+- add password grant token helpers and corresponding tests ([dfa0977](https://github.com/TIMOCOM-GmbH/playwright-essentials/commit/dfa0977d1ddbe440c5f50ee3f8efadf19171aab9))
+
 ## [1.4.3](https://github.com/TIMOCOM-GmbH/playwright-essentials/compare/v1.4.2...v1.4.3) (2025-09-12)
 
 ### Bug Fixes
