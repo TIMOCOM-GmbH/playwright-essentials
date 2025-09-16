@@ -140,6 +140,113 @@ They rely on Playwright's own `baseURL` resolution: if `use.baseURL` is set in `
 
 Waits for `networkidle` and optionally that the URL matches the provided `url` pattern.
 
+### Password grant token helpers
+
+Two helper functions are provided to obtain an OAuth2 access token via the Resource Owner Password Credentials ("password") grant and to build an `Authorization` header string.
+
+Exports (via `playwright-essentials/helpers` or the root `helpers` namespace):
+
+- `fetchPasswordGrantToken(options: PasswordGrantOptions): Promise<PasswordGrantTokenResponse>`
+- `getPasswordGrantAuthorizationHeader(options: PasswordGrantOptions): Promise<string>`
+
+#### `PasswordGrantOptions`
+
+```ts
+type PasswordGrantOptions = {
+  authServerHost: string
+  clientId: string
+  clientSecret: string
+  username: string
+  password: string
+  grant_type?: string // default: 'password'
+  extra?: Record<string, string> // optional extra form fields (e.g. scope)
+}
+```
+
+#### `fetchPasswordGrantToken`
+
+Builds a `POST` request to `${authServerHost}/auth/oauth/token` with form data:
+
+- `grant_type` (defaults to `password`)
+- `username`
+- `password`
+- any key/value pairs from `extra`
+
+It adds an HTTP `Authorization: Basic <base64(clientId:clientSecret)>` header and `Content-Type: application/x-www-form-urlencoded`.
+
+Returns the parsed JSON response (throws on non‑OK status, non‑JSON body, or missing `access_token`). The response is typed as:
+
+```ts
+interface PasswordGrantTokenResponse {
+  access_token: string
+  token_type?: string
+  expires_in?: number
+  scope?: string
+  // any other provider specific properties are preserved
+  [k: string]: any
+}
+```
+
+Error cases (each throws an Error):
+
+- Missing required option fields
+- Non‑JSON response body
+- Non‑2xx response (includes status + provider error message if available)
+- Response without `access_token`
+
+#### `getPasswordGrantAuthorizationHeader`
+
+Convenience wrapper that internally calls `fetchPasswordGrantToken` and returns a ready to use header string:
+
+```
+"Bearer <access_token>" // or `${token_type} <access_token>` if token_type is present
+```
+
+#### Usage example
+
+```ts
+import {
+  fetchPasswordGrantToken,
+  getPasswordGrantAuthorizationHeader,
+} from 'playwright-essentials/helpers'
+
+// Option A: obtain full token payload
+const token = await fetchPasswordGrantToken({
+  authServerHost: process.env.AUTH_SERVER_HOST!,
+  clientId: process.env.AUTH_CLIENT_ID!,
+  clientSecret: process.env.AUTH_CLIENT_SECRET!,
+  username: process.env.AUTH_USER!,
+  password: process.env.AUTH_PASS!,
+  // optional extra fields:
+  extra: { scope: 'profile:company:read' },
+})
+console.log('access token length', token.access_token.length)
+
+// Option B: directly build Authorization header
+const authHeader = await getPasswordGrantAuthorizationHeader({
+  authServerHost: process.env.AUTH_SERVER_HOST!,
+  clientId: process.env.AUTH_CLIENT_ID!,
+  clientSecret: process.env.AUTH_CLIENT_SECRET!,
+  username: process.env.AUTH_USER!,
+  password: process.env.AUTH_PASS!,
+})
+await page.request.get('/api/protected', { headers: { Authorization: authHeader } })
+```
+
+#### Environment variables example
+
+```
+AUTH_SERVER_HOST=https://my.host.com
+AUTH_CLIENT_ID=yourClientId
+AUTH_CLIENT_SECRET=yourClientSecret
+AUTH_USER=user@example.com
+AUTH_PASS=secret
+```
+
+#### Why not cache?
+
+Caching is intentionally left out to keep the helper deterministic and transparent. If you need caching, build it externally (e.g. store the resolved promise keyed by username) so test isolation remains clear.
+
 ## Tips & troubleshooting
 
 - Node >= 18 recommended; ESM and CJS are exported.
