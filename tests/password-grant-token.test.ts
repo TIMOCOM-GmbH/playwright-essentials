@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { fetchPasswordGrantToken, getPasswordGrantAuthorizationHeader } from '../src/helpers/token'
+import { GRANT_TYPE, fetchPasswordGrantToken, getOauthAccessToken } from '../src/helpers/token'
 
 // We stub global fetch to avoid real network
 function withStubbedFetch(
@@ -22,14 +22,15 @@ describe('password grant token helper', () => {
     await withStubbedFetch(
       async calls => {
         const token = await fetchPasswordGrantToken({
-          authServerHost: 'auth.example.com',
+          authServer: 'auth.example.com/oauth/token',
           clientId: 'cid',
           clientSecret: 'secret',
           username: 'user',
           password: 'pw',
+          grant_type: GRANT_TYPE.PASSWORD,
         })
         expect(token.access_token).toBe('tok123')
-        expect(calls[0].url).toBe('https://auth.example.com/auth/oauth/token')
+        expect(calls[0].url).toBe('https://auth.example.com/oauth/token')
       },
       async () => ({
         ok: true,
@@ -43,12 +44,13 @@ describe('password grant token helper', () => {
   it('builds Authorization header', async () => {
     await withStubbedFetch(
       async () => {
-        const header = await getPasswordGrantAuthorizationHeader({
-          authServerHost: 'auth.example.com',
+        const header = await getOauthAccessToken({
+          authServer: 'auth.example.com/oauth/token',
           clientId: 'cid',
           clientSecret: 'secret',
           username: 'user',
           password: 'pw',
+          grant_type: GRANT_TYPE.PASSWORD,
         })
         expect(header).toBe('Bearer tokABC')
       },
@@ -65,11 +67,12 @@ describe('password grant token helper', () => {
     await expect(
       fetchPasswordGrantToken({
         // missing host
-        authServerHost: '',
+        authServer: '',
         clientId: 'c',
         clientSecret: 's',
         username: 'u',
         password: 'p',
+        grant_type: GRANT_TYPE.PASSWORD,
       } as any)
     ).rejects.toThrow(/Missing required/)
   })
@@ -79,11 +82,12 @@ describe('password grant token helper', () => {
       async () => {
         await expect(
           fetchPasswordGrantToken({
-            authServerHost: 'auth.example.com',
+            authServer: 'auth.example.com/oauth/token',
             clientId: 'c',
             clientSecret: 's',
             username: 'u',
             password: 'p',
+            grant_type: GRANT_TYPE.PASSWORD,
           })
         ).rejects.toThrow(/Non-JSON/)
       },
@@ -96,11 +100,12 @@ describe('password grant token helper', () => {
       async () => {
         await expect(
           fetchPasswordGrantToken({
-            authServerHost: 'auth.example.com',
+            authServer: 'auth.example.com/oauth/token',
             clientId: 'c',
             clientSecret: 's',
             username: 'u',
             password: 'p',
+            grant_type: GRANT_TYPE.PASSWORD,
           })
         ).rejects.toThrow(/invalid_client/)
       },
@@ -118,11 +123,12 @@ describe('password grant token helper', () => {
       async () => {
         await expect(
           fetchPasswordGrantToken({
-            authServerHost: 'auth.example.com',
+            authServer: 'auth.example.com/oauth/token',
             clientId: 'c',
             clientSecret: 's',
             username: 'u',
             password: 'p',
+            grant_type: GRANT_TYPE.PASSWORD,
           })
         ).rejects.toThrow(/No access_token/)
       },
