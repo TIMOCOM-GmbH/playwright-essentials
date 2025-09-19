@@ -1,6 +1,6 @@
 {
   "name": "playwright-essentials",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "description": "Lightweight Playwright fixtures and helper functions for stable, readable tests.",
   "type": "module",
   "main": "dist/index.cjs",

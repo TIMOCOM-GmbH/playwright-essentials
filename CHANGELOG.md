@@ -1,3 +1,10 @@
+# [1.6.0](https://github.com/TIMOCOM-GmbH/playwright-essentials/compare/v1.5.0...v1.6.0) (2025-09-19)
+
+### Features
+
+- update OAuth2 token helpers to support client credentials grant and improve error handling ([ab40152](https://github.com/TIMOCOM-GmbH/playwright-essentials/commit/ab401529cac09b812023fe9ba42f8f122c69c458))
+- update password grant token tests to use new authServer format and include grant_type ([fe574d1](https://github.com/TIMOCOM-GmbH/playwright-essentials/commit/fe574d189758b8be503ebf3c9c948b0542432fe3))
+
 # [1.5.0](https://github.com/TIMOCOM-GmbH/playwright-essentials/compare/v1.4.3...v1.5.0) (2025-09-16)
 
 ### Features
