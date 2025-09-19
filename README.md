@@ -7,7 +7,7 @@ Lightweight utilities for Playwright focused on reusable authentication and smal
 Peer dependencies: `playwright` and `@playwright/test` must be present in your project.
 
 ```
-npm i https://github.com/TIMOCOM-GmbH/playwright-essentials/releases/download/v1.3.0/playwright-essentials-1.3.0.tgz
+npm i https://github.com/TIMOCOM-GmbH/playwright-essentials/releases/download/v1.5.0/playwright-essentials-1.5.0.tgz
 ```
 
 ## Exports/structure
@@ -19,6 +19,7 @@ npm i https://github.com/TIMOCOM-GmbH/playwright-essentials/releases/download/v1
   - Navigation helpers (all simple wrappers around `page.goto()`):
     - Path constants: `FREIGHT_EDITOR_PATH`, `FREIGHT_SEARCH_PATH`, `PRICEPROPOSAL_PATH`, `VEHICLE_EDITOR_PATH`, `VEHICLE_SEARCH_PATH`, `WAREHOUSE_EDITOR_PATH`, `WAREHOUSE_SEARCH_PATH`, `EBID_TENDERS_PATH`, `EBID_BIDS_PATH`, `ROUTE_AND_COSTS_PATH`, `DEALS_MY_DEALS_PATH`, `DEALS_RECEIVED_DEALS_PATH`, `ORDER_MY_ORDERS_PATH`, `ORDER_RECEIVED_ORDERS_PATH`, `ORDER_STATISTICS_PRINCIPAL_PATH`, `ORDER_STATISTICS_CONTRACTOR_PATH`, `SHIPMENT_PATH`, `FLEET_MY_FLEET_PATH`, `SHRAK_PATH`, `SHRAK_SHARED_VEHICLES_PATH`, `SHRAK_RECEIVED_VEHICLES_PATH`, `VEHICLE_MANAGEMENT_PATH`.
     - Functions: `navigate(page, path)` plus matching `goto*` functions like `gotoFreightEditor`, `gotoFreightSearch`, `gotoVehicleEditor`, etc.
+  - OAuth token helpers (password and client credentials grants): see section "OAuth2 token helpers" below.
 - `playwright-essentials`
   - Namespace export `helpers` (same as `playwright-essentials/helpers`).
 
@@ -140,112 +141,183 @@ They rely on Playwright's own `baseURL` resolution: if `use.baseURL` is set in `
 
 Waits for `networkidle` and optionally that the URL matches the provided `url` pattern.
 
-### Password grant token helpers
+### OAuth2 token helpers
 
-Two helper functions are provided to obtain an OAuth2 access token via the Resource Owner Password Credentials ("password") grant and to build an `Authorization` header string.
+Helpers to obtain OAuth2 access tokens for:
+
+- Resource Owner Password Credentials grant ("password" grant)
+- Client Credentials grant
 
 Exports (via `playwright-essentials/helpers` or the root `helpers` namespace):
 
-- `fetchPasswordGrantToken(options: PasswordGrantOptions): Promise<PasswordGrantTokenResponse>`
-- `getPasswordGrantAuthorizationHeader(options: PasswordGrantOptions): Promise<string>`
+- `fetchPasswordGrantToken(options: PasswordGrantOptions): Promise<TokenResponse>`
+- `fetchClientCredentialsToken(options: ClientCredentialsOptions): Promise<TokenResponse>`
+- `getOauthAccessToken(options: PasswordGrantOptions | ClientCredentialsOptions): Promise<string>` – convenience helper that returns a ready-to-use `Authorization` header value
 
-#### `PasswordGrantOptions`
+Types:
 
 ```ts
-type PasswordGrantOptions = {
-  authServerHost: string
+export enum GRANT_TYPE {
+  PASSWORD = 'password',
+  CLIENT_CREDENTIALS = 'client_credentials',
+}
+
+type GrantBaseOptions = {
+  authServer: string // full token endpoint URL or host; see notes below
   clientId: string
   clientSecret: string
+  grant_type: GRANT_TYPE
+  extra?: Record<string, string>
+}
+
+export type PasswordGrantOptions = GrantBaseOptions & {
   username: string
   password: string
-  grant_type?: string // default: 'password'
-  extra?: Record<string, string> // optional extra form fields (e.g. scope)
+  grant_type: GRANT_TYPE.PASSWORD
+}
+
+export type ClientCredentialsOptions = GrantBaseOptions & {
+  grant_type: GRANT_TYPE.CLIENT_CREDENTIALS
+}
+
+export type TokenResponse = {
+  access_token: string
+  token_type?: string
+  expires_in?: number
+  scope?: string
+  [k: string]: any
 }
 ```
 
 #### `fetchPasswordGrantToken`
 
-Builds a `POST` request to `${authServerHost}/auth/oauth/token` with form data:
+Sends a `POST` to the configured `authServer` with body form fields:
 
-- `grant_type` (defaults to `password`)
-- `username`
-- `password`
+- `grant_type=password`
+- `username`, `password`
 - any key/value pairs from `extra`
 
-It adds an HTTP `Authorization: Basic <base64(clientId:clientSecret)>` header and `Content-Type: application/x-www-form-urlencoded`.
+Headers:
 
-Returns the parsed JSON response (throws on non‑OK status, non‑JSON body, or missing `access_token`). The response is typed as:
+- `Authorization: Basic <base64(clientId:clientSecret)>`
+- `Content-Type: application/x-www-form-urlencoded`
 
-```ts
-interface PasswordGrantTokenResponse {
-  access_token: string
-  token_type?: string
-  expires_in?: number
-  scope?: string
-  // any other provider specific properties are preserved
-  [k: string]: any
-}
+Returns the parsed JSON response. Throws on non‑OK status, non‑JSON body, or missing `access_token`.
+
+#### `fetchClientCredentialsToken`
+
+Sends a `POST` to the configured `authServer` with body form fields:
+
+- `grant_type=client_credentials`
+- `client_id`, `client_secret`
+- any key/value pairs from `extra` (e.g. `scope`)
+
+Headers:
+
+- `Content-Type: application/x-www-form-urlencoded`
+
+Returns the parsed JSON response. Throws on error similar to the password grant.
+
+#### `getOauthAccessToken`
+
+Convenience wrapper:
+
+```
+await getOauthAccessToken({ /* PasswordGrantOptions or ClientCredentialsOptions */ })
+// -> "Bearer <access_token>" (uses token_type if present)
 ```
 
-Error cases (each throws an Error):
+#### Endpoint URL notes
 
-- Missing required option fields
-- Non‑JSON response body
-- Non‑2xx response (includes status + provider error message if available)
-- Response without `access_token`
+Pass either a full token URL or a host value to `authServer`:
 
-#### `getPasswordGrantAuthorizationHeader`
+- If you pass a host without protocol, `https://` is automatically added.
+- Trailing slashes are removed.
+- No path segments are appended automatically. Provide the full token endpoint when needed (e.g. `https://idp.example.com/oauth2/token`).
 
-Convenience wrapper that internally calls `fetchPasswordGrantToken` and returns a ready to use header string:
+#### Usage examples
 
-```
-"Bearer <access_token>" // or `${token_type} <access_token>` if token_type is present
-```
-
-#### Usage example
+Password grant:
 
 ```ts
 import {
+  GRANT_TYPE,
   fetchPasswordGrantToken,
-  getPasswordGrantAuthorizationHeader,
+  getOauthAccessToken,
 } from 'playwright-essentials/helpers'
 
-// Option A: obtain full token payload
 const token = await fetchPasswordGrantToken({
-  authServerHost: process.env.AUTH_SERVER_HOST!,
+  authServer: process.env.AUTH_SERVER!, // e.g. https://idp.example.com/oauth2/token
   clientId: process.env.AUTH_CLIENT_ID!,
   clientSecret: process.env.AUTH_CLIENT_SECRET!,
   username: process.env.AUTH_USER!,
   password: process.env.AUTH_PASS!,
-  // optional extra fields:
+  grant_type: GRANT_TYPE.PASSWORD,
   extra: { scope: 'profile:company:read' },
 })
-console.log('access token length', token.access_token.length)
 
-// Option B: directly build Authorization header
-const authHeader = await getPasswordGrantAuthorizationHeader({
-  authServerHost: process.env.AUTH_SERVER_HOST!,
+const authHeader = await getOauthAccessToken({
+  authServer: process.env.AUTH_SERVER!,
   clientId: process.env.AUTH_CLIENT_ID!,
   clientSecret: process.env.AUTH_CLIENT_SECRET!,
   username: process.env.AUTH_USER!,
   password: process.env.AUTH_PASS!,
+  grant_type: GRANT_TYPE.PASSWORD,
 })
 await page.request.get('/api/protected', { headers: { Authorization: authHeader } })
 ```
 
-#### Environment variables example
+Client credentials grant:
+
+```ts
+import {
+  GRANT_TYPE,
+  fetchClientCredentialsToken,
+  getOauthAccessToken,
+} from 'playwright-essentials/helpers'
+
+const token = await fetchClientCredentialsToken({
+  authServer: process.env.AUTH_SERVER!,
+  clientId: process.env.AUTH_CLIENT_ID!,
+  clientSecret: process.env.AUTH_CLIENT_SECRET!,
+  grant_type: GRANT_TYPE.CLIENT_CREDENTIALS,
+  extra: { scope: 'my.api.read' },
+})
+
+const authHeader = await getOauthAccessToken({
+  authServer: process.env.AUTH_SERVER!,
+  clientId: process.env.AUTH_CLIENT_ID!,
+  clientSecret: process.env.AUTH_CLIENT_SECRET!,
+  grant_type: GRANT_TYPE.CLIENT_CREDENTIALS,
+})
+```
+
+#### Environment variables examples
+
+Password grant:
 
 ```
-AUTH_SERVER_HOST=https://my.host.com
+AUTH_SERVER=https://idp.example.com/oauth2/token
 AUTH_CLIENT_ID=yourClientId
 AUTH_CLIENT_SECRET=yourClientSecret
 AUTH_USER=user@example.com
 AUTH_PASS=secret
 ```
 
+Client credentials grant:
+
+```
+AUTH_SERVER=https://idp.example.com/oauth2/token
+AUTH_CLIENT_ID=yourClientId
+AUTH_CLIENT_SECRET=yourClientSecret
+SCOPE=my.api.read
+```
+
+Then pass `extra: { scope: process.env.SCOPE! }` if your provider requires scopes.
+
 #### Why not cache?
 
-Caching is intentionally left out to keep the helper deterministic and transparent. If you need caching, build it externally (e.g. store the resolved promise keyed by username) so test isolation remains clear.
+Caching is intentionally left out to keep the helper deterministic and transparent. If you need caching, build it externally (e.g. store the resolved promise keyed by username or by clientId+scope) so test isolation remains clear.
 
 ## Tips & troubleshooting
 
