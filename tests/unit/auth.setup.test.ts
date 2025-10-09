@@ -86,9 +86,9 @@ describe('registerAuthSetup', () => {
     })
 
     // Verify new locators are called (for new login form)
-    expect(page.locator).toHaveBeenCalledWith('input#username')
-    expect(page.locator).toHaveBeenCalledWith('input#password')
-    expect(page.locator).toHaveBeenCalledWith('button#kc-login')
+    expect(page.locator).toHaveBeenCalledWith('#username')
+    expect(page.locator).toHaveBeenCalledWith('#password')
+    expect(page.locator).toHaveBeenCalledWith('#kc-login')
 
     // Verify old locators are still called (for fallback)
     expect(page.getByTestId).toHaveBeenCalledWith('email')

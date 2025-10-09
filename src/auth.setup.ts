@@ -53,10 +53,10 @@ export async function registerAuthSetup(page: Page, options: RegisterAuthOptions
   const oldPassInput = page.getByTestId('password')
   const oldSubmitButton = page.getByTestId('submit-button')
   // new login locators:
-  const newMailInput = page.locator('input#username')
-  const newPassInput = page.locator('input#password')
-  const newSubmitButton = page.locator('button#kc-login')
-  const newTanInput = page.locator('input#tan')
+  const newMailInput = page.locator('#username')
+  const newPassInput = page.locator('#password')
+  const newSubmitButton = page.locator('#kc-login')
+  const newTanInput = page.locator('#tan')
   const newSubmitTanButton = page.getByTestId('submit-tan-button')
 
   // Navigate to the login page
