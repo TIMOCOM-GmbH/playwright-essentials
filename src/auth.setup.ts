@@ -70,7 +70,7 @@ export async function registerAuthSetup(page: Page, options: RegisterAuthOptions
   await oldSubmitButton.or(newSubmitButton).click()
   // Handle 2FA if callback is provided
   if (getAuthCode) {
-    await newTanInput.waitFor({ state: 'visible', timeout: 10000 })
+    await newTanInput.waitFor({ state: 'visible' })
     const code = await getAuthCode()
     await newTanInput.fill(code)
     await newSubmitTanButton.click()
