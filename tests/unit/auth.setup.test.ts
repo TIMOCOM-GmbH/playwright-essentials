@@ -3,13 +3,17 @@ import { registerAuthSetup, DEFAULT_AUTH_FILE } from '../../src/auth.setup'
 
 function makePage() {
   const context = { storageState: vi.fn().mockResolvedValue(undefined) }
+  const locatorMethods = {
+    fill: vi.fn().mockResolvedValue(undefined),
+    click: vi.fn().mockResolvedValue(undefined),
+    isVisible: vi.fn().mockResolvedValue(false),
+    or: vi.fn().mockReturnThis(),
+  }
   return {
     goto: vi.fn().mockResolvedValue(undefined),
     waitForLoadState: vi.fn().mockResolvedValue(undefined),
-    getByTestId: vi.fn((_id: string) => ({
-      fill: vi.fn().mockResolvedValue(undefined),
-      click: vi.fn().mockResolvedValue(undefined),
-    })),
+    getByTestId: vi.fn(() => locatorMethods),
+    locator: vi.fn(() => locatorMethods),
     waitForTimeout: vi.fn().mockResolvedValue(undefined),
     addInitScript: vi.fn().mockResolvedValue(undefined),
     context: () => context,
@@ -31,7 +35,7 @@ describe('registerAuthSetup', () => {
       successUrl: /done/,
     })
 
-    expect(page.goto).toHaveBeenCalledWith('https://example.com/app/weblogin/')
+    expect(page.goto).toHaveBeenCalledWith('https://example.com/app/')
     expect(page.getByTestId).toHaveBeenCalledWith('email')
     expect(page.getByTestId).toHaveBeenCalledWith('password')
     expect(page.getByTestId).toHaveBeenCalledWith('submit-button')
@@ -53,7 +57,7 @@ describe('registerAuthSetup', () => {
       pass: 'secret',
     })
 
-    expect(page.goto).toHaveBeenCalledWith('https://example.com/app/weblogin/')
+    expect(page.goto).toHaveBeenCalledWith('https://example.com/app/')
   })
 
   it('uses provided statePath', async () => {
@@ -68,6 +72,28 @@ describe('registerAuthSetup', () => {
     })
 
     expect(page.context().storageState).toHaveBeenCalledWith({ path: 'custom/state.json' })
+  })
+
+  it('uses new login locators with fallback', async () => {
+    const page = makePage()
+    const ensureMod = await import('../../src/helpers/auth')
+    vi.spyOn(ensureMod, 'ensureLoggedIn').mockResolvedValue(undefined)
+
+    await registerAuthSetup(page as any, {
+      baseURL: 'https://example.com/app/',
+      user: 'test@example.com',
+      pass: 'password123',
+    })
+
+    // Verify new locators are called (for new login form)
+    expect(page.locator).toHaveBeenCalledWith('input#username')
+    expect(page.locator).toHaveBeenCalledWith('input#password')
+    expect(page.locator).toHaveBeenCalledWith('button#kc-login')
+
+    // Verify old locators are still called (for fallback)
+    expect(page.getByTestId).toHaveBeenCalledWith('email')
+    expect(page.getByTestId).toHaveBeenCalledWith('password')
+    expect(page.getByTestId).toHaveBeenCalledWith('submit-button')
   })
 
   describe('joyride and News deactivation', () => {
