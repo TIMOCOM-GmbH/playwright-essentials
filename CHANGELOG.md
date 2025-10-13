@@ -1,3 +1,9 @@
+## [1.7.1](https://github.com/TIMOCOM-GmbH/playwright-essentials/compare/v1.7.0...v1.7.1) (2025-10-13)
+
+### Bug Fixes
+
+- update locator for TAN input to use getByTestId method ([7301978](https://github.com/TIMOCOM-GmbH/playwright-essentials/commit/7301978de2fe41027ab98335e94fb60ef27849fa))
+
 # [1.7.0](https://github.com/TIMOCOM-GmbH/playwright-essentials/compare/v1.6.0...v1.7.0) (2025-10-13)
 
 ### Features
