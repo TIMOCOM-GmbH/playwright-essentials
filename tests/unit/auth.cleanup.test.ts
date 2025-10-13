@@ -6,13 +6,17 @@ import { registerAuthSetup, DEFAULT_AUTH_FILE } from '../../src/auth.setup'
 // Helper to create a mock Page similar to existing tests
 function makePage() {
   const context = { storageState: vi.fn().mockResolvedValue(undefined) }
+  const locatorMethods = {
+    fill: vi.fn().mockResolvedValue(undefined),
+    click: vi.fn().mockResolvedValue(undefined),
+    isVisible: vi.fn().mockResolvedValue(false),
+    or: vi.fn().mockReturnThis(),
+  }
   return {
     goto: vi.fn().mockResolvedValue(undefined),
     waitForLoadState: vi.fn().mockResolvedValue(undefined),
-    getByTestId: vi.fn((_id: string) => ({
-      fill: vi.fn().mockResolvedValue(undefined),
-      click: vi.fn().mockResolvedValue(undefined),
-    })),
+    getByTestId: vi.fn(() => locatorMethods),
+    locator: vi.fn(() => locatorMethods),
     addInitScript: vi.fn().mockResolvedValue(undefined),
     context: () => context,
   }
