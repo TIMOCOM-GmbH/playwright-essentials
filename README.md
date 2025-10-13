@@ -37,6 +37,7 @@ test('authenticate', async ({ page }) => {
     user: process.env.AUTH_USER!,
     pass: process.env.AUTH_PASS!,
     // optional: successUrl: /.*tcgate/, statePath: 'playwright/.auth/user.json'
+    // optional: getAuthCode: async () => { ... } // for 2FA, expects a 6 digit string code
   })
 })
 ```

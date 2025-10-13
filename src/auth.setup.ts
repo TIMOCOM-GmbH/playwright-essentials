@@ -13,6 +13,8 @@ export type RegisterAuthOptions = {
   successUrl?: string | RegExp
   statePath?: string
   deactivateJoyridesAndNews?: boolean
+  // Optional callback to retrieve the 2FA auth code (expects a 6 digit code)
+  getAuthCode?: () => Promise<string> | string
 }
 
 export async function registerAuthSetup(page: Page, options: RegisterAuthOptions): Promise<void> {
@@ -23,6 +25,7 @@ export async function registerAuthSetup(page: Page, options: RegisterAuthOptions
     successUrl = /.*tcgate.*/,
     statePath,
     deactivateJoyridesAndNews = true,
+    getAuthCode,
   } = options
   // Ensure baseURL ends with a trailing slash for consistent concatenation
   const normalizedBaseURL = baseURL.endsWith('/') ? baseURL : baseURL + '/'
@@ -44,11 +47,34 @@ export async function registerAuthSetup(page: Page, options: RegisterAuthOptions
       window.sessionStorage.setItem('timocom_news_show_dialog', 'false')
     })
   }
-  await page.goto(`${normalizedBaseURL}weblogin/`)
+
+  // old login locators:
+  const oldMailInput = page.getByTestId('email')
+  const oldPassInput = page.getByTestId('password')
+  const oldSubmitButton = page.getByTestId('submit-button')
+  // new login locators:
+  const newMailInput = page.locator('#username')
+  const newPassInput = page.locator('#password')
+  const newSubmitButton = page.locator('#kc-login')
+  const newTanInput = page.locator('#tan')
+  const newSubmitTanButton = page.getByTestId('submit-tan-button')
+
+  // Navigate to the login page
+  await page.goto(normalizedBaseURL)
   await page.waitForLoadState('networkidle')
-  await page.getByTestId('email').fill(user)
-  await page.getByTestId('password').fill(pass)
-  await page.getByTestId('submit-button').click()
+  await oldMailInput.or(newMailInput).fill(user)
+  if (await newMailInput.isVisible()) {
+    await newSubmitButton.click()
+  }
+  await oldPassInput.or(newPassInput).fill(pass)
+  await oldSubmitButton.or(newSubmitButton).click()
+  // Handle 2FA if callback is provided
+  if (getAuthCode) {
+    await newTanInput.waitFor({ state: 'visible' })
+    const code = await getAuthCode()
+    await newTanInput.fill(code)
+    await newSubmitTanButton.click()
+  }
   await ensureLoggedIn(page, { url: successUrl, timeout: 10_000 })
   await page.context().storageState({ path: storageStatePath })
 }
