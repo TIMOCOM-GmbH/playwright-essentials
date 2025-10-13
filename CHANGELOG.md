@@ -1,3 +1,9 @@
+# [1.7.0](https://github.com/TIMOCOM-GmbH/playwright-essentials/compare/v1.6.0...v1.7.0) (2025-10-13)
+
+### Features
+
+- keycloak login ([a5f1cbe](https://github.com/TIMOCOM-GmbH/playwright-essentials/commit/a5f1cbe9ca2a4d69955adab49ab7a622c52d9268))
+
 # [1.6.0](https://github.com/TIMOCOM-GmbH/playwright-essentials/compare/v1.5.0...v1.6.0) (2025-09-19)
 
 ### Features
