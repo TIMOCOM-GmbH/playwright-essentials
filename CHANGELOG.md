@@ -1,3 +1,14 @@
+# [1.8.0](https://github.com/TIMOCOM-GmbH/playwright-essentials/compare/v1.7.2...v1.8.0) (2025-12-02)
+
+### Bug Fixes
+
+- rollback semantic release version for compatibility ([bf61e48](https://github.com/TIMOCOM-GmbH/playwright-essentials/commit/bf61e48c172f48d2ce7b79a1c9c35afac7c9e635))
+- updated package lock ([1d8feaa](https://github.com/TIMOCOM-GmbH/playwright-essentials/commit/1d8feaa7ca7dcbac4cbe0ea2d90b12cad5a47562))
+
+### Features
+
+- keycloak login ([a5f1cbe](https://github.com/TIMOCOM-GmbH/playwright-essentials/commit/a5f1cbe9ca2a4d69955adab49ab7a622c52d9268))
+
 ## [1.7.1](https://github.com/TIMOCOM-GmbH/playwright-essentials/compare/v1.7.0...v1.7.1) (2025-10-13)
 
 ### Bug Fixes
