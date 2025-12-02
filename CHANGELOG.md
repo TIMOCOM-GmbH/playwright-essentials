@@ -1,3 +1,9 @@
+## [1.8.2](https://github.com/TIMOCOM-GmbH/playwright-essentials/compare/v1.8.1...v1.8.2) (2025-12-02)
+
+### Bug Fixes
+
+- fixed build script ([1f392e3](https://github.com/TIMOCOM-GmbH/playwright-essentials/commit/1f392e314bcd5d17b7b339d0477a1a2b7089bfa7))
+
 ## [1.8.1](https://github.com/TIMOCOM-GmbH/playwright-essentials/compare/v1.8.0...v1.8.1) (2025-12-02)
 
 ### Bug Fixes
