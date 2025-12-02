@@ -1,3 +1,9 @@
+## [1.8.1](https://github.com/TIMOCOM-GmbH/playwright-essentials/compare/v1.8.0...v1.8.1) (2025-12-02)
+
+### Bug Fixes
+
+- added utils to package.json ([69a0ea4](https://github.com/TIMOCOM-GmbH/playwright-essentials/commit/69a0ea421ff56c018c1cec91044f8bb8960a8878))
+
 # [1.8.0](https://github.com/TIMOCOM-GmbH/playwright-essentials/compare/v1.7.2...v1.8.0) (2025-12-02)
 
 ### Bug Fixes
