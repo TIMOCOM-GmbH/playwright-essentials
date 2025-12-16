@@ -1,3 +1,44 @@
+# [1.9.0](https://github.com/TIMOCOM-GmbH/playwright-essentials/compare/v1.8.2...v1.9.0) (2025-12-16)
+
+### Features
+
+- add functions to block EUM requests and all analytics requests ([44e1cde](https://github.com/TIMOCOM-GmbH/playwright-essentials/commit/44e1cdebfde070d86bd050bcf37d169386c347cf))
+
+## [1.8.2](https://github.com/TIMOCOM-GmbH/playwright-essentials/compare/v1.8.1...v1.8.2) (2025-12-02)
+
+### Bug Fixes
+
+- fixed build script ([1f392e3](https://github.com/TIMOCOM-GmbH/playwright-essentials/commit/1f392e314bcd5d17b7b339d0477a1a2b7089bfa7))
+
+## [1.8.1](https://github.com/TIMOCOM-GmbH/playwright-essentials/compare/v1.8.0...v1.8.1) (2025-12-02)
+
+### Bug Fixes
+
+- added utils to package.json ([69a0ea4](https://github.com/TIMOCOM-GmbH/playwright-essentials/commit/69a0ea421ff56c018c1cec91044f8bb8960a8878))
+
+# [1.8.0](https://github.com/TIMOCOM-GmbH/playwright-essentials/compare/v1.7.2...v1.8.0) (2025-12-02)
+
+### Bug Fixes
+
+- rollback semantic release version for compatibility ([bf61e48](https://github.com/TIMOCOM-GmbH/playwright-essentials/commit/bf61e48c172f48d2ce7b79a1c9c35afac7c9e635))
+- updated package lock ([1d8feaa](https://github.com/TIMOCOM-GmbH/playwright-essentials/commit/1d8feaa7ca7dcbac4cbe0ea2d90b12cad5a47562))
+
+### Features
+
+- keycloak login ([a5f1cbe](https://github.com/TIMOCOM-GmbH/playwright-essentials/commit/a5f1cbe9ca2a4d69955adab49ab7a622c52d9268))
+
+## [1.7.1](https://github.com/TIMOCOM-GmbH/playwright-essentials/compare/v1.7.0...v1.7.1) (2025-10-13)
+
+### Bug Fixes
+
+- update locator for TAN input to use getByTestId method ([7301978](https://github.com/TIMOCOM-GmbH/playwright-essentials/commit/7301978de2fe41027ab98335e94fb60ef27849fa))
+
+# [1.7.0](https://github.com/TIMOCOM-GmbH/playwright-essentials/compare/v1.6.0...v1.7.0) (2025-10-13)
+
+### Features
+
+- keycloak login ([a5f1cbe](https://github.com/TIMOCOM-GmbH/playwright-essentials/commit/a5f1cbe9ca2a4d69955adab49ab7a622c52d9268))
+
 # [1.6.0](https://github.com/TIMOCOM-GmbH/playwright-essentials/compare/v1.5.0...v1.6.0) (2025-09-19)
 
 ### Features
