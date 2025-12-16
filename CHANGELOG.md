@@ -1,3 +1,9 @@
+# [1.9.0](https://github.com/TIMOCOM-GmbH/playwright-essentials/compare/v1.8.2...v1.9.0) (2025-12-16)
+
+### Features
+
+- add functions to block EUM requests and all analytics requests ([44e1cde](https://github.com/TIMOCOM-GmbH/playwright-essentials/commit/44e1cdebfde070d86bd050bcf37d169386c347cf))
+
 ## [1.8.2](https://github.com/TIMOCOM-GmbH/playwright-essentials/compare/v1.8.1...v1.8.2) (2025-12-02)
 
 ### Bug Fixes
