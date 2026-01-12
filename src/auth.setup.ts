@@ -47,6 +47,10 @@ export async function registerAuthSetup(page: Page, options: RegisterAuthOptions
       window.sessionStorage.setItem('timocom_news_show_dialog', 'false')
     })
   }
+  // deactivate pendo consent banner
+  await page.addInitScript(() => {
+    window.localStorage.setItem('timocom_appheader_pendoAnalyticsEnabled', 'false')
+  })
 
   // old login locators:
   const oldMailInput = page.getByTestId('email')
