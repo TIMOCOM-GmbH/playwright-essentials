@@ -1,3 +1,10 @@
+# [1.10.0](https://github.com/TIMOCOM-GmbH/playwright-essentials/compare/v1.9.0...v1.10.0) (2026-01-12)
+
+### Features
+
+- add mock implementation for addInitScript in blockPendo tests ([17366dc](https://github.com/TIMOCOM-GmbH/playwright-essentials/commit/17366dc9a8114cbb6ba69c6a75381b7eff930762))
+- moved pendo consent banner blocker to blockPendo function ([1fa150e](https://github.com/TIMOCOM-GmbH/playwright-essentials/commit/1fa150e3d073c84e3c7bb9f0e2174905c19d922f))
+
 # [1.9.0](https://github.com/TIMOCOM-GmbH/playwright-essentials/compare/v1.8.2...v1.9.0) (2025-12-16)
 
 ### Features
