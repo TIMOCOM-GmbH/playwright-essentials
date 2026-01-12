@@ -9,6 +9,7 @@ function makePage() {
       await handler(mockRoute)
       return mockRoute
     }),
+    addInitScript: vi.fn().mockResolvedValue(undefined),
   }
 }
 
