@@ -6,6 +6,10 @@ import type { Page } from '@playwright/test'
  */
 export async function blockPendo(page: Page): Promise<void> {
   await page.route('https://cdn.eu.pendo.io/**', route => route.abort())
+  // deactivate pendo consent banner
+  await page.addInitScript(() => {
+    window.localStorage.setItem('timocom_appheader_pendoAnalyticsEnabled', 'false')
+  })
 }
 
 /**
