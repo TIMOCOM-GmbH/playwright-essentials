@@ -1,3 +1,9 @@
+# [1.11.0](https://github.com/TIMOCOM-GmbH/playwright-essentials/compare/v1.10.0...v1.11.0) (2026-04-27)
+
+### Features
+
+- added new pendo domain for blocking ([532bedf](https://github.com/TIMOCOM-GmbH/playwright-essentials/commit/532bedf44a2a1a39b22a7a0c8f1147bcfebe15f6))
+
 # [1.10.0](https://github.com/TIMOCOM-GmbH/playwright-essentials/compare/v1.9.0...v1.10.0) (2026-01-12)
 
 ### Features
