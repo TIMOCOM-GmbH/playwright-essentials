@@ -1,3 +1,9 @@
+# [1.12.0](https://github.com/TIMOCOM-GmbH/playwright-essentials/compare/v1.11.0...v1.12.0) (2026-04-28)
+
+### Features
+
+- changed pendo blocker into regex ([f1b1355](https://github.com/TIMOCOM-GmbH/playwright-essentials/commit/f1b13559b335a3081b5174b3cba48f065f6906da))
+
 # [1.11.0](https://github.com/TIMOCOM-GmbH/playwright-essentials/compare/v1.10.0...v1.11.0) (2026-04-27)
 
 ### Features
