@@ -56,7 +56,7 @@ export async function registerAuthSetup(page: Page, options: RegisterAuthOptions
   const newMailInput = page.locator('#username')
   const newPassInput = page.locator('#password')
   const newSubmitButton = page.locator('#kc-login')
-  const newTanInput = page.getByTestId('tan')
+  const newTanInput = page.getByTestId('tan').or(page.locator('#totp'))
   const newSubmitTanButton = page.getByTestId('submit-tan-button')
 
   // Navigate to the login page
@@ -73,7 +73,7 @@ export async function registerAuthSetup(page: Page, options: RegisterAuthOptions
     await newTanInput.waitFor({ state: 'visible' })
     const code = await getAuthCode()
     await newTanInput.fill(code)
-    await newSubmitTanButton.click()
+    await newSubmitTanButton.or(newSubmitButton).click()
   }
   await ensureLoggedIn(page, { url: successUrl, timeout: 10_000 })
   await page.context().storageState({ path: storageStatePath })
