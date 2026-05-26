@@ -1,3 +1,9 @@
+# [1.13.0](https://github.com/TIMOCOM-GmbH/playwright-essentials/compare/v1.12.0...v1.13.0) (2026-05-26)
+
+### Features
+
+- bump package version and add otp support ([9c5bcb7](https://github.com/TIMOCOM-GmbH/playwright-essentials/commit/9c5bcb7c117175f9c7b25d03500ec9d4254c0d22))
+
 # [1.12.0](https://github.com/TIMOCOM-GmbH/playwright-essentials/compare/v1.11.0...v1.12.0) (2026-04-28)
 
 ### Features
