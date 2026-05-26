@@ -87,8 +87,5 @@
   },
   "engines": {
     "node": ">=18"
-  },
-  "dependencies": {
-    "otplib": "^13.4.0"
   }
 }
