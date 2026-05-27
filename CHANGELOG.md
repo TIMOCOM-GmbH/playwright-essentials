@@ -1,3 +1,27 @@
+## [1.13.1](https://github.com/TIMOCOM-GmbH/playwright-essentials/compare/v1.13.0...v1.13.1) (2026-05-26)
+
+### Bug Fixes
+
+- update OTP locator from '#totp' to '#otp' for login functionality ([b129844](https://github.com/TIMOCOM-GmbH/playwright-essentials/commit/b129844bcfe4317a3309b5497b96463d2b9dcf67))
+
+# [1.13.0](https://github.com/TIMOCOM-GmbH/playwright-essentials/compare/v1.12.0...v1.13.0) (2026-05-26)
+
+### Features
+
+- bump package version and add otp support ([9c5bcb7](https://github.com/TIMOCOM-GmbH/playwright-essentials/commit/9c5bcb7c117175f9c7b25d03500ec9d4254c0d22))
+
+# [1.12.0](https://github.com/TIMOCOM-GmbH/playwright-essentials/compare/v1.11.0...v1.12.0) (2026-04-28)
+
+### Features
+
+- changed pendo blocker into regex ([f1b1355](https://github.com/TIMOCOM-GmbH/playwright-essentials/commit/f1b13559b335a3081b5174b3cba48f065f6906da))
+
+# [1.11.0](https://github.com/TIMOCOM-GmbH/playwright-essentials/compare/v1.10.0...v1.11.0) (2026-04-27)
+
+### Features
+
+- added new pendo domain for blocking ([532bedf](https://github.com/TIMOCOM-GmbH/playwright-essentials/commit/532bedf44a2a1a39b22a7a0c8f1147bcfebe15f6))
+
 # [1.10.0](https://github.com/TIMOCOM-GmbH/playwright-essentials/compare/v1.9.0...v1.10.0) (2026-01-12)
 
 ### Features

@@ -18,6 +18,7 @@ describe('blockPendo', () => {
     const page = makePage()
     await blockPendo(page as any)
     expect(page.route).toHaveBeenCalledWith('https://cdn.eu.pendo.io/**', expect.any(Function))
+    expect(page.route).toHaveBeenCalledWith(/pendo\.my\.timocom\.com/, expect.any(Function))
     // Check that abort was called on the mock route
     const [[, handler]] = page.route.mock.calls
     const mockRoute = { abort: vi.fn().mockResolvedValue(undefined) }

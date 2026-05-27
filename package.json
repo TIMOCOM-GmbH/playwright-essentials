@@ -1,6 +1,6 @@
 {
   "name": "playwright-essentials",
-  "version": "1.10.0",
+  "version": "1.13.1",
   "description": "Lightweight Playwright fixtures and helper functions for stable, readable tests.",
   "type": "module",
   "main": "dist/index.cjs",
@@ -87,5 +87,8 @@
   },
   "engines": {
     "node": ">=18"
+  },
+  "dependencies": {
+    "otplib": "^13.4.0"
   }
 }
