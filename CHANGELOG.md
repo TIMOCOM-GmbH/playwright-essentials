@@ -1,3 +1,9 @@
+## [1.13.1](https://github.com/TIMOCOM-GmbH/playwright-essentials/compare/v1.13.0...v1.13.1) (2026-05-26)
+
+### Bug Fixes
+
+- update OTP locator from '#totp' to '#otp' for login functionality ([b129844](https://github.com/TIMOCOM-GmbH/playwright-essentials/commit/b129844bcfe4317a3309b5497b96463d2b9dcf67))
+
 # [1.13.0](https://github.com/TIMOCOM-GmbH/playwright-essentials/compare/v1.12.0...v1.13.0) (2026-05-26)
 
 ### Features
