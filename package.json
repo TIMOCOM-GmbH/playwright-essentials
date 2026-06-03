@@ -91,7 +91,7 @@
     "vitest": "^4.1.4"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=20"
   },
   "dependencies": {
     "otplib": "^13.4.0"
