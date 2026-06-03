@@ -1,3 +1,9 @@
+# [1.14.0](https://github.com/TIMOCOM-GmbH/playwright-essentials/compare/v1.13.1...v1.14.0) (2026-06-03)
+
+### Features
+
+- added reactNativeWebView fixture ([77c53b1](https://github.com/TIMOCOM-GmbH/playwright-essentials/commit/77c53b1e3dcecb8ffd0eb6a13072a2ec329cda30))
+
 ## [1.13.1](https://github.com/TIMOCOM-GmbH/playwright-essentials/compare/v1.13.0...v1.13.1) (2026-05-26)
 
 ### Bug Fixes
