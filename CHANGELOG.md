@@ -1,3 +1,14 @@
+# [1.15.0](https://github.com/TIMOCOM-GmbH/playwright-essentials/compare/v1.14.1...v1.15.0) (2026-08-17)
+
+### Bug Fixes
+
+- regenerate package-lock.json to include esbuild@0.28.2 ([ecdc2ec](https://github.com/TIMOCOM-GmbH/playwright-essentials/commit/ecdc2ec89470c455f4db873097c3f7c08d6116f4))
+- upgrade Node.js to v22 in release workflow for semantic-release compatibility ([0624328](https://github.com/TIMOCOM-GmbH/playwright-essentials/commit/06243280ff7e88947b341ec5e23c6e57d0481e23))
+
+### Features
+
+- **fixtures:** allow injecting an auth token into reactNativeWebView ([1cb4a1b](https://github.com/TIMOCOM-GmbH/playwright-essentials/commit/1cb4a1bd98b6cb87c863eeb609696009d628a605))
+
 ## [1.14.1](https://github.com/TIMOCOM-GmbH/playwright-essentials/compare/v1.14.0...v1.14.1) (2026-06-10)
 
 ### Bug Fixes
