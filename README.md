@@ -22,7 +22,7 @@ npm i https://github.com/TIMOCOM-GmbH/playwright-essentials/releases/download/v1
   - OAuth token helpers (password and client credentials grants): see section "OAuth2 token helpers" below.
 - `playwright-essentials/fixtures`
   - `extendWithReactNativeWebView(test)` – extends a local Playwright `test` with the `reactNativeWebView` option.
-  - `setupReactNativeWebView(page)` – injects a mocked `window.ReactNativeWebView` before page scripts run.
+  - `setupReactNativeWebView(page, injectedObject?)` – injects a mocked `window.ReactNativeWebView` (optionally carrying an auth token) before page scripts run.
 - `playwright-essentials`
   - Namespace export `helpers` (same as `playwright-essentials/helpers`).
   - Namespace export `fixtures` (same as `playwright-essentials/fixtures`).
@@ -139,6 +139,36 @@ You can also enable it per file or per suite:
 ```ts
 test.use({ reactNativeWebView: true })
 ```
+
+### Providing an auth token
+
+Inside a real React Native WebView the web app does **not** use the browser
+Keycloak session — it reads its access token from the native host via
+`ReactNativeWebView.injectedObjectJson()`. Enabling the fixture with `true`
+injects an empty object (`{}`), so token-dependent code stays unauthenticated
+even when a `storageState` from an auth-setup project is present.
+
+Pass a token (and optionally `hiwayStandalone`) so the emulated bridge exposes
+it just like a native host would:
+
+```ts
+test.use({ reactNativeWebView: { token: process.env.RN_BRIDGE_TOKEN } })
+```
+
+For full control over the injected payload, use `injectedObject` (takes
+precedence over `token` / `hiwayStandalone`):
+
+```ts
+test.use({
+  reactNativeWebView: { injectedObject: { token: myToken, hiwayStandalone: true } },
+})
+```
+
+`reactNativeWebView` accepts:
+
+- `false` (default) — do not emulate a WebView.
+- `true` — emulate a WebView with an empty injected object (`{}`).
+- `{ token?, hiwayStandalone?, injectedObject? }` — emulate a WebView and inject the given data.
 
 ## API
 
