@@ -14,6 +14,7 @@ npm i https://github.com/TIMOCOM-GmbH/playwright-essentials/releases/download/v1
 
 - `playwright-essentials/auth.setup`
   - `registerAuthSetup(page, options)` – pure function that performs login and writes the storage state.
+  - `registerApiAuthSetup(request, options)` – same result without a browser: logs in against Keycloak with HTTP calls.
 - `playwright-essentials/helpers`
   - `ensureLoggedIn(page, { url?, timeout? })` – waits until the login is stable.
   - Navigation helpers (all simple wrappers around `page.goto()`):
@@ -103,6 +104,36 @@ Defaults:
 - `successUrl`: default RegExp `/.*tcgate/`
 
 Once you've done these steps, you no longer need to log in manually; the E2E test starts already authenticated via the storage state.
+
+### Faster: login via API instead of UI
+
+`registerApiAuthSetup` writes the same storage state without opening a browser. It posts username, password and (optionally) the OTP to Keycloak the way the login page does. The Keycloak session cookies end up in the state, and the app signs in with them on its own.
+
+```ts
+import { test } from '@playwright/test'
+import { registerApiAuthSetup } from 'playwright-essentials/auth.setup'
+import { generateOTP } from 'playwright-essentials/helpers'
+
+test('authenticate', async ({ request }) => {
+  await registerApiAuthSetup(request, {
+    baseURL: process.env.BASE_URL,
+    user: process.env.AUTH_USER!,
+    pass: process.env.AUTH_PASS!,
+    // optional: realmUrl: 'https://iam.example.com/realms/timocom' // or AUTH_REALM_URL
+    // optional: getAuthCode: () => generateOTP(process.env.AUTH_TOTP_SECRET!) // for 2FA
+    // optional: clientId, redirectUri, statePath, deactivateJoyridesAndNews
+  })
+})
+```
+
+Differences to `registerAuthSetup`:
+
+- `realmUrl` defaults to `process.env.AUTH_REALM_URL`, otherwise `https://iam.timocom.com/realms/timocom`. Set it together with `baseURL` when testing another environment.
+- `clientId` defaults to `web-ui-public-login`, `redirectUri` to `${baseURL}tcgate/`.
+- Supports one-step (username and password together) and two-step (username first) login forms.
+- Only overwrites the state file; it does not delete the state folder.
+- `deactivateJoyridesAndNews` only sets the joyride flag in `localStorage`. The news flag lives in `sessionStorage`, which a storage state does not keep.
+- The form action is read from the Keycloak HTML. If Keycloak changes its login theme or flow, this can break, just like UI selectors.
 
 ## React Native WebView fixture
 
