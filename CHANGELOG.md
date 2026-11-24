@@ -1,3 +1,10 @@
+# [1.16.0](https://github.com/TIMOCOM-GmbH/playwright-essentials/compare/v1.15.0...v1.16.0) (2026-11-24)
+
+### Features
+
+- add registerApiAuthSetup to log in via Keycloak HTTP calls ([e254355](https://github.com/TIMOCOM-GmbH/playwright-essentials/commit/e254355b220f0a61b17f71c5d4505208238de4d0))
+- add registerAuthSetupWithFallback to fall back to UI login ([80804db](https://github.com/TIMOCOM-GmbH/playwright-essentials/commit/80804db7a8368e43d55cd70e5feeae5c52c7d7de))
+
 # [1.15.0](https://github.com/TIMOCOM-GmbH/playwright-essentials/compare/v1.14.1...v1.15.0) (2026-08-17)
 
 ### Bug Fixes
