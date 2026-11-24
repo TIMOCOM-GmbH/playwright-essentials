@@ -15,6 +15,7 @@ npm i https://github.com/TIMOCOM-GmbH/playwright-essentials/releases/download/v1
 - `playwright-essentials/auth.setup`
   - `registerAuthSetup(page, options)` – pure function that performs login and writes the storage state.
   - `registerApiAuthSetup(request, options)` – same result without a browser: logs in against Keycloak with HTTP calls.
+  - `registerAuthSetupWithFallback(page, options)` – tries the API login first and falls back to the UI login if it fails.
 - `playwright-essentials/helpers`
   - `ensureLoggedIn(page, { url?, timeout? })` – waits until the login is stable.
   - Navigation helpers (all simple wrappers around `page.goto()`):
@@ -134,6 +135,25 @@ Differences to `registerAuthSetup`:
 - Only overwrites the state file; it does not delete the state folder.
 - `deactivateJoyridesAndNews` only sets the joyride flag in `localStorage`. The news flag lives in `sessionStorage`, which a storage state does not keep.
 - The form action is read from the Keycloak HTML. If Keycloak changes its login theme or flow, this can break, just like UI selectors.
+
+### API login with UI fallback
+
+`registerAuthSetupWithFallback` takes the options of `registerAuthSetup` plus `realmUrl`, `clientId` and `redirectUri`. It tries `registerApiAuthSetup` first. If that fails, it logs a warning with the reason, clears the cookies of the half-finished login and runs `registerAuthSetup` instead.
+
+```ts
+import { test } from '@playwright/test'
+import { registerAuthSetupWithFallback } from 'playwright-essentials/auth.setup'
+
+test('authenticate', async ({ page }) => {
+  await registerAuthSetupWithFallback(page, {
+    baseURL: process.env.BASE_URL,
+    user: process.env.AUTH_USER!,
+    pass: process.env.AUTH_PASS!,
+  })
+})
+```
+
+Keycloak does not accept the same OTP twice. If the API login already sent an OTP before it failed, the fallback waits for the next 30-second TOTP window before the UI login. This assumes the standard 30-second period.
 
 ## React Native WebView fixture
 

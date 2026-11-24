@@ -196,3 +196,41 @@ export async function registerApiAuthSetup(
   fs.mkdirSync(path.dirname(storageStatePath), { recursive: true })
   fs.writeFileSync(storageStatePath, JSON.stringify(state, null, 2))
 }
+
+const TOTP_PERIOD_MS = 30_000
+
+export type RegisterAuthWithFallbackOptions = RegisterAuthOptions &
+  Pick<RegisterApiAuthOptions, 'realmUrl' | 'clientId' | 'redirectUri'>
+
+/**
+ * Tries the login via API first and falls back to the UI login if that fails,
+ * e.g. when Keycloak changes its login flow.
+ */
+export async function registerAuthSetupWithFallback(
+  page: Page,
+  options: RegisterAuthWithFallbackOptions
+): Promise<void> {
+  const { getAuthCode } = options
+  let otpSentAt: number | undefined
+  const trackedGetAuthCode = getAuthCode
+    ? () => {
+        otpSentAt = Date.now()
+        return getAuthCode()
+      }
+    : undefined
+
+  try {
+    await registerApiAuthSetup(page.request, { ...options, getAuthCode: trackedGetAuthCode })
+  } catch (error) {
+    console.warn(
+      `API login for ${options.user} failed, falling back to UI login: ${error instanceof Error ? error.message : error}`
+    )
+    // A half-finished Keycloak session would make the login page skip steps
+    await page.context().clearCookies()
+    if (otpSentAt !== undefined) {
+      // Keycloak rejects a reused OTP, so wait for the next 30 s TOTP window
+      await page.waitForTimeout(TOTP_PERIOD_MS - (otpSentAt % TOTP_PERIOD_MS) + 1000)
+    }
+    await registerAuthSetup(page, options)
+  }
+}
